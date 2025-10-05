@@ -1,8 +1,4 @@
-console.log("✅ Script.js загружен!");
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("✅ DOM загружен!");
-    // Основные переменные
+ // Основные переменные
 let chart;
 let candleSeries;
 let volumeSeries;
@@ -1705,3 +1701,4 @@ function loadFromLocalStorage() {
         }
     }
 }
+
