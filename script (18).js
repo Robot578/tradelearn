@@ -1,4 +1,8 @@
-// Основные переменные
+console.log("✅ Script.js загружен!");
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("✅ DOM загружен!");
+    // Основные переменные
 let chart;
 let candleSeries;
 let volumeSeries;
@@ -1701,5 +1705,3 @@ function loadFromLocalStorage() {
         }
     }
 }
-
-window.cancelOrder = cancelOrder;
