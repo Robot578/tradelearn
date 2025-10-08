@@ -52,7 +52,8 @@ body {
 
 .sidebar.collapsed .sidebar-header h2,
 .sidebar.collapsed .nav-btn span,
-.sidebar.collapsed .balance-card {
+.sidebar.collapsed .balance-card,
+.sidebar.collapsed .connection-status {
     display: none;
 }
 
@@ -105,6 +106,7 @@ body {
     padding: 15px;
     border-radius: 8px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .balance-amount {
@@ -113,6 +115,31 @@ body {
     font-weight: 600;
     color: var(--success);
     margin-top: 5px;
+}
+
+/* Статус подключения */
+.connection-status {
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.8rem;
+    background-color: rgba(255, 171, 0, 0.2);
+    color: var(--warning);
+}
+
+.connection-status.connected {
+    background-color: rgba(0, 200, 83, 0.2);
+    color: var(--success);
+}
+
+.connection-status.disconnected {
+    background-color: rgba(255, 82, 82, 0.2);
+    color: var(--loss);
+}
+
+.connection-status.connecting {
+    background-color: rgba(255, 171, 0, 0.2);
+    color: var(--warning);
 }
 
 /* Основной контент */
@@ -199,6 +226,20 @@ body {
     color: var(--loss);
 }
 
+/* Статистика рынка */
+.market-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.market-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 /* Основной контент */
 .main-content {
     flex: 1;
@@ -260,6 +301,28 @@ body {
     color: var(--text-primary);
 }
 
+/* Управление графиком */
+.chart-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.control-btn {
+    background-color: var(--surface-light);
+    color: var(--text-primary);
+    border: 1px solid var(--divider);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
 .chart-container {
     position: relative;
     height: 400px;
@@ -313,17 +376,29 @@ body {
 .indicator-checkbox {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     cursor: pointer;
+    padding: 8px 12px;
+    background-color: var(--surface-light);
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.indicator-checkbox:hover {
+    background-color: var(--primary);
 }
 
 .indicator-checkbox input[type="checkbox"] {
     accent-color: var(--primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
 .indicator-label {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    font-weight: 500;
 }
 
 /* Секции контента */
@@ -522,6 +597,36 @@ body {
     color: white;
 }
 
+/* Быстрые действия */
+.quick-actions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
+}
+
+.quick-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.quick-btn {
+    flex: 1;
+    background-color: var(--surface-light);
+    color: var(--text-primary);
+    border: 1px solid var(--divider);
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.quick-btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
 /* Стили для ордеров */
 .order-creation {
     margin-bottom: 20px;
@@ -598,7 +703,7 @@ body {
     font-size: 0.8rem;
 }
 
-.empty-orders, .empty-history {
+.empty-orders, .empty-history, .empty-signals {
     text-align: center;
     color: var(--text-secondary);
     padding: 30px;
@@ -646,6 +751,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
+    margin-bottom: 20px;
 }
 
 .portfolio-item {
@@ -663,11 +769,43 @@ body {
     font-weight: 600;
 }
 
+.portfolio-chart {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
+}
+
 /* Стили для истории */
+.history-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.history-filter {
+    background-color: var(--surface-light);
+    color: var(--text-secondary);
+    border: 1px solid var(--divider);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.history-filter.active {
+    background-color: var(--primary);
+    color: var(--text-primary);
+    border-color: var(--primary);
+}
+
 .history-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .history-item {
@@ -710,6 +848,198 @@ body {
 
 .history-amount.loss {
     color: var(--loss);
+}
+
+/* Анализ рынка */
+.analysis-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--divider);
+    flex-wrap: wrap;
+}
+
+.analysis-tab {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.analysis-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.analysis-tab:hover {
+    color: var(--text-primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.trend-indicators,
+.volatility-stats,
+.support-levels,
+.sentiment-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trend-item,
+.volatility-item,
+.level-item,
+.sentiment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--surface-light);
+    border-radius: 6px;
+}
+
+.level-item.resistance {
+    border-left: 4px solid var(--loss);
+}
+
+.level-item.support {
+    border-left: 4px solid var(--success);
+}
+
+.level-item.pivot {
+    border-left: 4px solid var(--warning);
+}
+
+/* Торговые сигналы */
+.signals-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.signal-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.signal-filter {
+    background-color: var(--surface-light);
+    color: var(--text-secondary);
+    border: 1px solid var(--divider);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.signal-filter.active {
+    background-color: var(--primary);
+    color: var(--text-primary);
+    border-color: var(--primary);
+}
+
+.signals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.signal-item {
+    background-color: var(--surface-light);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--warning);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signal-item.buy {
+    border-left-color: var(--success);
+}
+
+.signal-item.sell {
+    border-left-color: var(--loss);
+}
+
+.signal-item.warning {
+    border-left-color: var(--warning);
+}
+
+.signal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.signal-type {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.signal-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.signal-time {
+    font-size: 0.7rem;
+    color: var(--text-disabled);
+}
+
+.signal-strength {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.signal-strength.high {
+    background-color: rgba(255, 82, 82, 0.2);
+    color: var(--loss);
+}
+
+.signal-strength.medium {
+    background-color: rgba(255, 171, 0, 0.2);
+    color: var(--warning);
+}
+
+.signal-strength.low {
+    background-color: rgba(0, 200, 83, 0.2);
+    color: var(--success);
+}
+
+.signal-settings {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
+}
+
+.setting-item {
+    margin-bottom: 10px;
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
 /* Стили для достижений */
@@ -782,11 +1112,34 @@ body {
     color: var(--text-secondary);
 }
 
+.stats-charts {
+    margin: 20px 0;
+}
+
 /* Стили для данных */
 .data-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 10px;
+    margin-bottom: 20px;
+}
+
+.data-info {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--divider);
+}
+
+.info-item:last-child {
+    border-bottom: none;
 }
 
 /* Всплывающая подсказка для графика */
@@ -824,19 +1177,76 @@ body {
     font-weight: 600;
 }
 
-/* Стили для учителя */
-.teacher-questions {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid var(--divider);
-}
-
-.question-input {
+/* Уведомления */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-width: 300px;
 }
 
+.notification {
+    background-color: var(--surface);
+    border-left: 4px solid var(--primary);
+    padding: 12px 15px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.notification.success {
+    border-left-color: var(--success);
+}
+
+.notification.error {
+    border-left-color: var(--loss);
+}
+
+.notification.warning {
+    border-left-color: var(--warning);
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.notification-message {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Уроки */
 .teacher-lessons {
     background-color: var(--surface-light);
     padding: 15px;
@@ -935,6 +1345,17 @@ body {
         gap: 5px;
     }
     
+    .header-right {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .market-stats {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+    
     .trade-inputs {
         grid-template-columns: 1fr;
     }
@@ -960,9 +1381,21 @@ body {
     .dictionary-grid {
         grid-template-columns: 1fr;
     }
-}
-
-@media (max-width: 480px) {
+    
+    .analysis-tabs {
+        flex-direction: column;
+    }
+    
+    .signal-filters {
+        justify-content: center;
+    }
+    
+    .notification-container {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+    
     .chart-header {
         flex-direction: column;
         align-items: stretch;
@@ -980,51 +1413,12 @@ body {
     .journal-stats {
         grid-template-columns: 1fr 1fr;
     }
+    
+    .data-buttons {
+        grid-template-columns: 1fr;
+    }
 }
 
-/* Дополнительные стили для индикаторов */
-.indicator-controls {
-    display: flex;
-    gap: 15px;
-    margin-top: 15px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.indicator-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 8px 12px;
-    background-color: var(--surface-light);
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-.indicator-checkbox:hover {
-    background-color: var(--primary);
-}
-
-.indicator-checkbox input[type="checkbox"] {
-    accent-color: var(--primary);
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-.indicator-label {
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-/* Цвета индикаторов для подсказки */
-.indicator-sma { color: #2962ff; }
-.indicator-ema { color: #ff6d00; }
-.indicator-rsi { color: #9c27b0; }
-
-/* Адаптивность для индикаторов */
 @media (max-width: 480px) {
     .indicator-controls {
         flex-direction: column;
@@ -1035,4 +1429,15 @@ body {
         width: 100%;
         justify-content: space-between;
     }
+    
+    .risk-results {
+        grid-template-columns: 1fr;
+    }
 }
+
+/* Цвета индикаторов */
+.indicator-sma { color: #2962ff; }
+.indicator-ema { color: #ff6d00; }
+.indicator-rsi { color: #9c27b0; }
+.indicator-macd { color: #00bcd4; }
+.indicator-bollinger { color: #4caf50; }
