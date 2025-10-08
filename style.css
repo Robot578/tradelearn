@@ -1,38 +1,36 @@
-/* Базовые стили */
+:root {
+    --primary: #2962ff;
+    --primary-dark: #0039cb;
+    --secondary: #ff6d00;
+    --secondary-dark: #c43c00;
+    --background: #121212;
+    --surface: #1e1e1e;
+    --surface-light: #2d2d2d;
+    --error: #cf6679;
+    --success: #00c853;
+    --warning: #ffab00;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-disabled: rgba(255, 255, 255, 0.5);
+    --divider: rgba(255, 255, 255, 0.12);
+    --profit: #00c853;
+    --loss: #ff5252;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --primary: #2962ff;
-    --primary-dark: #0039cb;
-    --secondary: #455a64;
-    --success: #00c853;
-    --warning: #ffab00;
-    --error: #ff1744;
-    --profit: #00c853;
-    --loss: #ff1744;
-    --bg-primary: #121212;
-    --bg-secondary: #1e1e1e;
-    --bg-tertiary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
-    --text-muted: #666666;
-    --border-color: #333333;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--bg-primary);
+    background-color: var(--background);
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
-/* Основной контейнер */
 .app-container {
     display: flex;
     min-height: 100vh;
@@ -40,35 +38,42 @@ body {
 
 /* Сайдбар */
 .sidebar {
-    width: 280px;
-    background: var(--bg-secondary);
-    border-right: 1px solid var(--border-color);
+    width: 250px;
+    background-color: var(--surface);
     display: flex;
     flex-direction: column;
-    transition: all 0.3s ease;
-    z-index: 1000;
+    border-right: 1px solid var(--divider);
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar.collapsed .sidebar-header h2,
+.sidebar.collapsed .nav-btn span,
+.sidebar.collapsed .balance-card {
+    display: none;
 }
 
 .sidebar-header {
     padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-    text-align: center;
+    border-bottom: 1px solid var(--divider);
 }
 
 .sidebar-header h2 {
-    color: var(--primary);
     font-size: 1.5rem;
     font-weight: 600;
 }
 
 .sidebar-nav {
     flex: 1;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .nav-btn {
     width: 100%;
-    padding: 15px 25px;
+    padding: 15px 20px;
     background: none;
     border: none;
     color: var(--text-secondary);
@@ -77,31 +82,26 @@ body {
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 0.95rem;
+    gap: 10px;
 }
 
 .nav-btn:hover {
-    background: var(--bg-tertiary);
+    background-color: var(--surface-light);
     color: var(--text-primary);
 }
 
 .nav-btn.active {
-    background: var(--primary);
-    color: white;
-}
-
-.nav-btn span {
-    font-weight: 500;
+    background-color: var(--primary);
+    color: var(--text-primary);
 }
 
 .sidebar-footer {
     padding: 20px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--divider);
 }
 
 .balance-card {
-    background: var(--bg-tertiary);
+    background-color: var(--surface-light);
     padding: 15px;
     border-radius: 8px;
     text-align: center;
@@ -109,7 +109,7 @@ body {
 
 .balance-amount {
     display: block;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--success);
     margin-top: 5px;
@@ -120,13 +120,12 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0;
 }
 
 .header {
-    background: var(--bg-secondary);
-    padding: 15px 25px;
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--surface);
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--divider);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -144,19 +143,18 @@ body {
     color: var(--text-primary);
     font-size: 1.2rem;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 5px;
     border-radius: 4px;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .sidebar-toggle:hover {
-    background: var(--bg-tertiary);
+    background-color: var(--surface-light);
 }
 
 .header-left h1 {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary);
 }
 
 .header-left p {
@@ -167,11 +165,11 @@ body {
 .header-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .current-price-display {
-    background: var(--bg-tertiary);
+    background-color: var(--surface-light);
     padding: 10px 15px;
     border-radius: 8px;
     display: flex;
@@ -180,21 +178,24 @@ body {
 }
 
 .asset-price {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    color: var(--success);
 }
 
 .price-change {
+    padding: 3px 8px;
+    border-radius: 4px;
     font-size: 0.9rem;
     font-weight: 500;
 }
 
 .price-change.positive {
+    background-color: rgba(0, 200, 83, 0.2);
     color: var(--profit);
 }
 
 .price-change.negative {
+    background-color: rgba(255, 82, 82, 0.2);
     color: var(--loss);
 }
 
@@ -209,67 +210,62 @@ body {
 
 /* Секция графика */
 .chart-section {
-    background: var(--bg-secondary);
+    background-color: var(--surface);
     border-radius: 12px;
     padding: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .chart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
 }
 
 .asset-select {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
+    background-color: var(--surface-light);
     color: var(--text-primary);
-    padding: 8px 15px;
+    border: 1px solid var(--divider);
+    padding: 8px 12px;
     border-radius: 6px;
     font-size: 0.9rem;
-    min-width: 120px;
 }
 
 .timeframe-selector {
     display: flex;
     gap: 5px;
-    background: var(--bg-tertiary);
-    padding: 4px;
-    border-radius: 6px;
 }
 
 .timeframe-btn {
-    background: none;
-    border: none;
+    background-color: var(--surface-light);
     color: var(--text-secondary);
+    border: 1px solid var(--divider);
     padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
+    border-radius: 6px;
     font-size: 0.8rem;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .timeframe-btn:hover {
+    background-color: var(--primary);
     color: var(--text-primary);
 }
 
 .timeframe-btn.active {
-    background: var(--primary);
-    color: white;
+    background-color: var(--primary);
+    color: var(--text-primary);
 }
 
-/* Контейнер графика */
 .chart-container {
     position: relative;
-    height: 500px;
-    background: var(--bg-primary);
+    height: 400px;
+    background-color: var(--background);
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--border-color);
 }
 
 #candleChart {
@@ -283,23 +279,23 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: var(--text-primary);
-    z-index: 10;
+    z-index: 1000;
 }
 
 .loader-spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid var(--border-color);
+    border: 4px solid var(--divider);
     border-top: 4px solid var(--primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 @keyframes spin {
@@ -307,23 +303,18 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Управление индикаторами */
 .indicator-controls {
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
-    margin-top: 20px;
-    padding: 15px;
-    background: var(--bg-tertiary);
-    border-radius: 8px;
+    margin-top: 15px;
+    flex-wrap: wrap;
 }
 
 .indicator-checkbox {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     cursor: pointer;
-    font-size: 0.9rem;
 }
 
 .indicator-checkbox input[type="checkbox"] {
@@ -331,80 +322,34 @@ body {
 }
 
 .indicator-label {
-    color: var(--text-secondary);
-    transition: color 0.3s ease;
-}
-
-.indicator-checkbox:hover .indicator-label {
-    color: var(--text-primary);
-}
-
-/* Информация о торговле */
-.trading-fees-display {
-    background: var(--bg-tertiary);
-    padding: 10px 15px;
-    border-radius: 6px;
-    text-align: center;
-    color: var(--text-secondary);
     font-size: 0.9rem;
-    margin-top: 15px;
-}
-
-/* Управление плечом */
-.leverage-control {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 15px;
-    padding: 15px;
-    background: var(--bg-tertiary);
-    border-radius: 8px;
-}
-
-.leverage-slider {
-    flex: 1;
-    height: 6px;
-    background: var(--border-color);
-    border-radius: 3px;
-    outline: none;
-    -webkit-appearance: none;
-}
-
-.leverage-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    background: var(--primary);
-    border-radius: 50%;
-    cursor: pointer;
+    color: var(--text-secondary);
 }
 
 /* Секции контента */
 .content-sections {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
 .content-section {
-    background: var(--bg-secondary);
+    background-color: var(--surface);
     border-radius: 12px;
-    padding: 0;
-    box-shadow: var(--shadow);
-    max-height: 600px;
-    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .section-header {
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--divider);
 }
 
 .section-header h3 {
-    color: var(--text-primary);
     font-size: 1.2rem;
     font-weight: 600;
 }
@@ -417,168 +362,326 @@ body {
     cursor: pointer;
     padding: 5px;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .close-section:hover {
+    background-color: var(--surface-light);
     color: var(--text-primary);
-    background: var(--bg-tertiary);
 }
 
-/* Формы ввода */
-.trade-inputs,
-.risk-inputs {
-    padding: 20px;
+/* Стили для учителя */
+.teacher-content {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+}
+
+.teacher-message {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.teacher-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.teacher-action-btn {
+    background-color: var(--surface-light);
+    color: var(--text-primary);
+    border: 1px solid var(--divider);
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.teacher-action-btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.teacher-dictionary {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.teacher-dictionary h4 {
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.dictionary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.dictionary-term {
+    background-color: var(--background);
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dictionary-term:hover {
+    background-color: var(--primary);
+}
+
+.term-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+}
+
+.term-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: block;
+}
+
+/* Стили для торговли */
+.trade-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
 }
 
 .input-group label {
-    color: var(--text-secondary);
     font-size: 0.9rem;
-    font-weight: 500;
+    color: var(--text-secondary);
 }
 
 .trade-input {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
+    background-color: var(--surface-light);
     color: var(--text-primary);
-    padding: 12px 15px;
+    border: 1px solid var(--divider);
+    padding: 10px;
     border-radius: 6px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .trade-input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(41, 98, 255, 0.2);
 }
 
-/* Кнопки торговли */
 .trade-buttons {
+    grid-column: span 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 10px;
+    gap: 10px;
 }
 
 .trade-btn {
-    padding: 15px 20px;
+    padding: 12px;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: 600;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 2px;
+}
+
+.trade-btn small {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    font-weight: normal;
 }
 
 .trade-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .buy-btn {
-    background: var(--profit);
+    background-color: var(--success);
     color: white;
 }
 
 .sell-btn {
-    background: var(--loss);
+    background-color: var(--loss);
     color: white;
 }
 
-.trade-btn small {
-    font-size: 0.8rem;
-    opacity: 0.9;
-    font-weight: normal;
+/* Стили для ордеров */
+.order-creation {
+    margin-bottom: 20px;
 }
 
-/* Результаты рисков */
-.risk-results {
-    margin-top: 20px;
-    padding: 15px;
-    background: var(--bg-tertiary);
-    border-radius: 8px;
+.order-creation h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.order-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.active-orders h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.orders-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.order-item {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--warning);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-item.stop {
+    border-left-color: var(--loss);
+}
+
+.order-item.take-profit {
+    border-left-color: var(--success);
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.order-type {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.order-details {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.order-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.order-cancel-btn {
+    background-color: var(--loss);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.empty-orders, .empty-history {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 30px;
+    font-style: italic;
+}
+
+/* Стили для рисков */
+.risk-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.risk-results {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
 }
 
 .risk-result {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+    background-color: var(--surface-light);
+    border-radius: 6px;
 }
 
-.risk-result:last-child {
-    border-bottom: none;
+.risk-result span:first-child {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
-/* Портфель */
+.risk-result span:last-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Стили для портфеля */
 .portfolio-grid {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
 .portfolio-item {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background: var(--bg-tertiary);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.portfolio-item:hover {
-    background: var(--border-color);
 }
 
 .portfolio-item.total {
-    background: var(--primary);
+    background-color: var(--primary);
     color: white;
     font-weight: 600;
-    margin-top: 10px;
 }
 
-/* История */
+/* Стили для истории */
 .history-list {
-    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 400px;
-    overflow-y: auto;
 }
 
 .history-item {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background: var(--bg-tertiary);
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    border-left: 4px solid var(--success);
 }
 
-.history-item:hover {
-    background: var(--border-color);
+.history-item.loss {
+    border-left-color: var(--loss);
 }
 
 .history-info {
@@ -593,357 +696,46 @@ body {
 }
 
 .history-details {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
 }
 
 .history-amount {
     font-weight: 600;
-    font-size: 1.1rem;
 }
 
 .history-amount.profit {
-    color: var(--profit);
+    color: var(--success);
 }
 
 .history-amount.loss {
     color: var(--loss);
 }
 
-.empty-history {
-    text-align: center;
-    color: var(--text-secondary);
-    padding: 40px 20px;
-    font-style: italic;
-}
-
-/* Учитель */
-.teacher-content {
-    padding: 20px;
-}
-
-.teacher-message {
-    background: var(--bg-tertiary);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid var(--primary);
-}
-
-.teacher-controls {
+/* Стили для достижений */
+.achievements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.teacher-action-btn {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 12px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-    text-align: left;
-}
-
-.teacher-action-btn:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-.teacher-questions {
-    margin-bottom: 20px;
-}
-
-.teacher-questions h4 {
-    margin-bottom: 10px;
-    color: var(--text-primary);
-}
-
-.dictionary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 10px;
-}
-
-.dictionary-term {
-    background: var(--bg-tertiary);
-    padding: 12px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-}
-
-.dictionary-term:hover {
-    border-color: var(--primary);
-    background: var(--border-color);
-}
-
-.term-name {
-    font-weight: 600;
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: 5px;
-}
-
-.term-desc {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    display: block;
-}
-
-/* Статистика */
-.journal-stats {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
 }
 
-.journal-stat {
-    background: var(--bg-tertiary);
+.achievement-card {
+    background-color: var(--surface-light);
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     transition: all 0.3s ease;
 }
 
-.journal-stat:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
-
-.stat-value {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 5px;
-}
-
-.stat-label {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
-
-/* Квесты */
-.quests-grid {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-}
-
-.quest-item {
-    background: var(--bg-tertiary);
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid var(--warning);
-}
-
-.quest-item.completed {
-    border-left-color: var(--success);
-}
-
-.quest-name {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 5px;
-}
-
-.quest-desc {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 10px;
-}
-
-.quest-progress {
-    background: var(--border-color);
-    height: 6px;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    background: var(--warning);
-    transition: width 0.3s ease;
-}
-
-.quest-item.completed .progress-bar {
-    background: var(--success);
-}
-
-/* Уведомления */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--bg-secondary);
-    border-left: 4px solid var(--primary);
-    padding: 15px 20px;
-    border-radius: 6px;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transform: translateX(400px);
-    transition: transform 0.3s ease;
-    z-index: 10000;
-    max-width: 400px;
-}
-
-.notification.show {
-    transform: translateX(0);
-}
-
-.notification.success {
-    border-left-color: var(--success);
-}
-
-.notification.error {
-    border-left-color: var(--loss);
-}
-
-.notification.warning {
-    border-left-color: var(--warning);
-}
-
-.notification-close {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 1.1rem;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.notification-close:hover {
-    color: var(--text-primary);
-}
-
-/* Анимации */
-.price-update {
-    animation: pricePulse 1s ease;
-}
-
-@keyframes pricePulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        left: -280px;
-        height: 100vh;
-    }
-    
-    .sidebar.collapsed {
-        left: 0;
-    }
-    
-    .header {
-        padding: 15px;
-    }
-    
-    .header-left h1 {
-        font-size: 1.2rem;
-    }
-    
-    .main-content {
-        padding: 15px;
-    }
-    
-    .chart-container {
-        height: 400px;
-    }
-    
-    .trade-buttons {
-        grid-template-columns: 1fr;
-    }
-    
-    .teacher-controls {
-        grid-template-columns: 1fr;
-    }
-    
-    .journal-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    .header-right {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .chart-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .timeframe-selector {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .indicator-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .journal-stats {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Специфические стили для контентных секций */
-.data-buttons {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.achievements-grid {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.achievement-item {
-    background: var(--bg-tertiary);
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.achievement-item.locked {
+.achievement-card.locked {
     opacity: 0.6;
+    filter: grayscale(1);
 }
 
-.achievement-item.unlocked {
-    border: 2px solid var(--success);
+.achievement-card.unlocked {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(41, 98, 255, 0.3);
 }
 
 .achievement-icon {
@@ -951,13 +743,296 @@ body {
     margin-bottom: 10px;
 }
 
-.achievement-name {
+.achievement-title {
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 5px;
 }
 
 .achievement-desc {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
+}
+
+/* Стили для статистики */
+.journal-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.journal-stat {
+    background-color: var(--surface-light);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Стили для данных */
+.data-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+/* Всплывающая подсказка для графика */
+.chart-tooltip {
+    position: absolute;
+    background-color: rgba(30, 30, 30, 0.95);
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.9rem;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.chart-tooltip .tooltip-header {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.chart-tooltip .tooltip-content {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px 15px;
+    color: var(--text-secondary);
+}
+
+.chart-tooltip .tooltip-label {
+    font-weight: 500;
+}
+
+.chart-tooltip .tooltip-value {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Стили для учителя */
+.teacher-questions {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
+}
+
+.question-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.teacher-lessons {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.lesson-card {
+    background-color: var(--background);
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--primary);
+}
+
+.lesson-card:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.lesson-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.lesson-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: block;
+}
+
+.term-details {
+    background-color: var(--surface-light);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary);
+}
+
+#term-title {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+#term-description {
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--divider);
+    }
+    
+    .sidebar-nav {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+    }
+    
+    .nav-btn {
+        padding: 10px 15px;
+        white-space: nowrap;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .header-left {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .trade-inputs {
+        grid-template-columns: 1fr;
+    }
+    
+    .trade-buttons {
+        grid-column: 1;
+    }
+    
+    .order-inputs,
+    .risk-inputs {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-grid,
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lessons-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dictionary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .timeframe-selector {
+        justify-content: center;
+    }
+    
+    .teacher-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .journal-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Дополнительные стили для индикаторов */
+.indicator-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.indicator-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: var(--surface-light);
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.indicator-checkbox:hover {
+    background-color: var(--primary);
+}
+
+.indicator-checkbox input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.indicator-label {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Цвета индикаторов для подсказки */
+.indicator-sma { color: #2962ff; }
+.indicator-ema { color: #ff6d00; }
+.indicator-rsi { color: #9c27b0; }
+
+/* Адаптивность для индикаторов */
+@media (max-width: 480px) {
+    .indicator-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .indicator-checkbox {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
