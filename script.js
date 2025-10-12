@@ -33,172 +33,6 @@ let marketData = {};
 let tradingSignals = [];
 let equityCurve = [100];
 
-// База знаний учителя
-const teacherKnowledge = {
-    questions: {
-        'что такое трейдинг': 'Трейдинг - это процесс покупки и продажи активов (акций, криптовалют, валют) с целью получения прибыли от изменения их цен.',
-        'как начать торговать': 'Начните с изучения основ: технического и фундаментального анализа, управления рисками. Используйте демо-счет для практики.',
-        'что такое свечной график': 'Свечной график показывает ценовые движения за определенный период. Каждая свеча показывает цену открытия, закрытия, максимум и минимум.',
-        'что такое стоп лосс': 'Стоп-лосс - это ордер, который автоматически закрывает позицию при достижении определенного уровня убытка, чтобы ограничить потери.',
-        'что такое тейк профит': 'Тейк-профит - это ордер, который автоматически закрывает позицию при достижении определенного уровня прибыли.',
-        'что такое rsi': 'RSI (Relative Strength Index) - индикатор, показывающий перекупленность (выше 70) и перепроданность (ниже 30) рынка.',
-        'что такое macd': 'MACD (Moving Average Convergence Divergence) - индикатор, показывающий изменение силы и направления тренда.',
-        'что такое боллинджер': 'Полосы Боллинджера - индикатор волатильности, состоящий из трех линий: средней (SMA) и двух стандартных отклонений.',
-        'что такое кредитное плечо': 'Кредитное плечо позволяет торговать на суммы, превышающие ваш депозит, увеличивая как потенциальную прибыль, так и убытки.',
-        'что такое бычий рынок': 'Бычий рынок - период роста цен, оптимизма и высокого спроса на активы.',
-        'что такое медвежий рынок': 'Медвежий рынок - период падения цен, пессимизма и высокого предложения активов.'
-    },
-    
-    lessons: {
-        'basics': {
-            title: '📖 Основы трейдинга',
-            content: `Основные понятия трейдинга:
-            
-1. **Актив** - то, чем вы торгуете (акции, криптовалюты, валюта)
-2. **Лот** - размер позиции
-3. **Пункт (пипс)** - минимальное изменение цены
-4. **Спред** - разница между ценой покупки и продажи
-5. **Маржа** - залог для открытия позиции
-6. **Плечо** - множитель торговой позиции
-            
-Совет: Начинайте с маленьких объемов и всегда используйте стоп-лосс!`
-        },
-        'candles': {
-            title: '🕯️ Свечной анализ',
-            content: `Японские свечи - основной инструмент технического анализа:
-            
-**Строение свечи:**
-- Тело (open-close)
-- Тени (high-low)
-            
-**Типы свечей:**
-- Бычья (зеленая) - close > open
-- Медвежья (красная) - close < open
-            
-**Паттерны:**
-- Молот (разворот вверх)
-- Повешенный (разворот вниз)
-- Поглощение (смена тренда)
-- Доджи (нерешительность)`
-        },
-        'indicators': {
-            title: '📊 Индикаторы',
-            content: `Основные индикаторы технического анализа:
-            
-**Трендовые:**
-- SMA (простая скользящая средняя)
-- EMA (экспоненциальная скользящая)
-- MACD (схождение/расхождение)
-            
-**Осцилляторы:**
-- RSI (индекс относительной силы)
-- Stochastic (стохастик)
-- CCI (индекс товарного канала)
-            
-**Волатильность:**
-- Полосы Боллинджера
-- ATR (средний истинный диапазон)`
-        },
-        'risk': {
-            title: '🛡️ Управление рисками',
-            content: `Правила управления рисками:
-            
-1. **Риск на сделку**: не более 1-2% от депозита
-2. **Соотношение риск/прибыль**: минимум 1:2
-3. **Стоп-лосс**: обязателен для каждой сделки
-4. **Диверсификация**: не вкладывайте все в один актив
-5. **Эмоции**: торгуйте по плану, а не на эмоциях
-            
-Формула расчета объема:
-Объем = (Депозит × Риск%) / (Цена входа - Стоп-лосс)`
-        },
-        'macd': {
-            title: '📈 MACD индикатор',
-            content: `MACD (Moving Average Convergence Divergence):
-            
-**Составляющие:**
-- MACD линия (12 EMA - 26 EMA)
-- Сигнальная линия (9 EMA от MACD)
-- Гистограмма (разница между линиями)
-            
-**Сигналы:**
-- Пересечение MACD выше сигнальной - покупка
-- Пересечение MACD ниже сигнальной - продажа
-- Дивергенция - сильный разворотный сигнал
-            
-**Настройки**: 12, 26, 9 (стандартные)`
-        },
-        'bollinger': {
-            title: '📊 Полосы Боллинджера',
-            content: `Полосы Боллинджера - индикатор волатильности:
-            
-**Составляющие:**
-- Средняя линия (20 SMA)
-- Верхняя полоса (SMA + 2σ)
-- Нижняя полоса (SMA - 2σ)
-            
-**Сигналы:**
-- Отскок от нижней полосы - покупка
-- Отскок от верхней полосы - продажа
-- Сужение полос - снижение волатильности
-- Расширение полос - рост волатильности
-            
-**Важно**: 95% цен движутся внутри полос`
-        }
-    },
-    
-    dictionary: {
-        'sma': {
-            title: 'SMA (Simple Moving Average)',
-            description: 'Простая скользящая средняя - среднее арифметическое цен за определенный период. Сглаживает ценовые колебания и показывает направление тренда.'
-        },
-        'ema': {
-            title: 'EMA (Exponential Moving Average)',
-            description: 'Экспоненциальная скользящая средняя - придает больший вес последним ценам, быстрее реагирует на изменения чем SMA.'
-        },
-        'rsi': {
-            title: 'RSI (Relative Strength Index)',
-            description: 'Индекс относительной силы - осциллятор от 0 до 100. Выше 70 - перекупленность, ниже 30 - перепроданность.'
-        },
-        'macd': {
-            title: 'MACD',
-            description: 'Moving Average Convergence Divergence - показывает взаимосвязь между двумя скользящими средними. Состоит из MACD линии, сигнальной линии и гистограммы.'
-        },
-        'bollinger': {
-            title: 'Полосы Боллинджера',
-            description: 'Bollinger Bands - состоят из средней SMA и двух полос на расстоянии 2 стандартных отклонений. Показывают волатильность и уровни перекупленности/перепроданности.'
-        },
-        'stoploss': {
-            title: 'Stop-Loss',
-            description: 'Стоп-лосс - ордер для автоматического закрытия позиции при достижении определенного уровня убытков. Обязателен для управления рисками.'
-        },
-        'takeprofit': {
-            title: 'Take-Profit', 
-            description: 'Тейк-профит - ордер для автоматического закрытия позиции при достижении определенного уровня прибыли. Помогает фиксировать прибыль.'
-        },
-        'leverage': {
-            title: 'Кредитное плечо',
-            description: 'Leverage - позволяет торговать объемами, превышающими ваш депозит. Увеличивает как прибыль, так и убытки. Используйте осторожно!'
-        },
-        'bullmarket': {
-            title: 'Бычий рынок',
-            description: 'Bull Market - период роста цен, оптимизма инвесторов и экономического роста. Характеризуется восходящим трендом.'
-        },
-        'bearmarket': {
-            title: 'Медвежий рынок',
-            description: 'Bear Market - период падения цен, пессимизма и экономического спада. Характеризуется нисходящим трендом.'
-        },
-        'atr': {
-            title: 'ATR (Average True Range)',
-            description: 'Средний истинный диапазон - индикатор волатильности. Показывает средний диапазон движения цены за определенный период.'
-        },
-        'divergence': {
-            title: 'Дивергенция',
-            description: 'Расхождение между движением цены и индикатора. Бычья дивергенция - цена делает новые минимумы, а индикатор - нет. Медвежья - наоборот.'
-        }
-    }
-};
-
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM загружен, инициализация приложения...');
@@ -220,6 +54,9 @@ function initializeApp() {
     // Загрузка сохраненных данных
     loadSavedData();
     
+    // Загрузка реальных данных с Binance
+    loadRealChartData();
+    
     console.log('Приложение инициализировано');
 }
 
@@ -233,110 +70,103 @@ function initializeChart() {
     }
     
     try {
-        // Создаем график
+        // Создаем график с оригинальным дизайном
         chart = LightweightCharts.createChart(chartContainer, {
-            width: chartContainer.clientWidth,
-            height: 400,
             layout: {
-                backgroundColor: '#1e1e1e',
-                textColor: '#d1d4dc',
+                background: { color: '#121212' },
+                textColor: 'rgba(255, 255, 255, 0.9)',
             },
             grid: {
-                vertLines: {
-                    color: '#2b2b43',
-                },
-                horzLines: {
-                    color: '#2b2b43',
-                },
+                vertLines: { color: 'rgba(42, 46, 57, 0.5)' },
+                horzLines: { color: 'rgba(42, 46, 57, 0.5)' },
+            },
+            timeScale: {
+                timeVisible: true,
+                secondsVisible: false,
+                borderColor: 'rgba(197, 203, 206, 0.4)',
             },
             crosshair: {
                 mode: LightweightCharts.CrosshairMode.Normal,
             },
-            rightPriceScale: {
-                borderColor: '#485c7b',
-            },
-            timeScale: {
-                borderColor: '#485c7b',
-                timeVisible: true,
-                secondsVisible: false,
-            },
-            handleScroll: {
-                mouseWheel: true,
-                pressedMouseMove: true,
-            },
-            handleScale: {
-                axisPressedMouseMove: true,
-                mouseWheel: true,
-                pinch: true,
-            },
+            width: chartContainer.clientWidth,
+            height: 400,
         });
 
-        // Создаем свечную серию
+        // Создаем свечную серию с оригинальными цветами
         candleSeries = chart.addCandlestickSeries({
-            upColor: '#26a69a',
-            downColor: '#ef5350',
-            borderDownColor: '#ef5350',
-            borderUpColor: '#26a69a',
-            wickDownColor: '#ef5350',
-            wickUpColor: '#26a69a',
+            upColor: '#00c853',
+            downColor: '#ff5252',
+            borderDownColor: '#ff5252',
+            borderUpColor: '#00c853',
+            wickDownColor: '#ff5252',
+            wickUpColor: '#00c853',
         });
 
-        // Создаем серии для индикаторов
+        // Создаем серии для индикаторов с оригинальными цветами
         smaSeries = chart.addLineSeries({
-            color: '#2962FF',
-            lineWidth: 1,
+            color: '#2962ff',
+            lineWidth: 2,
             title: 'SMA 20',
         });
 
         emaSeries = chart.addLineSeries({
-            color: '#FF6B6B',
-            lineWidth: 1,
+            color: '#ff6d00',
+            lineWidth: 2,
             title: 'EMA 12',
         });
 
-        // Создаем график для RSI
-        const rsiChart = LightweightCharts.createChart(document.createElement('div'), {
-            width: chartContainer.clientWidth,
-            height: 150,
-            layout: {
-                backgroundColor: '#1e1e1e',
-                textColor: '#d1d4dc',
+        // RSI серия
+        rsiSeries = chart.addLineSeries({
+            color: '#9c27b0',
+            lineWidth: 1,
+            title: 'RSI',
+            priceScaleId: 'rsi',
+        });
+
+        // Настройка шкалы для RSI
+        chart.priceScale('rsi').applyOptions({
+            scaleMargins: {
+                top: 0.8,
+                bottom: 0.1,
+            }
+        });
+
+        // Объемы
+        volumeSeries = chart.addHistogramSeries({
+            color: '#26a69a',
+            priceFormat: {
+                type: 'volume',
             },
-            grid: {
-                vertLines: {
-                    color: '#2b2b43',
-                },
-                horzLines: {
-                    color: '#2b2b43',
-                },
-            },
-            rightPriceScale: {
-                borderColor: '#485c7b',
-            },
-            timeScale: {
-                borderColor: '#485c7b',
-                timeVisible: true,
-                secondsVisible: false,
+            priceScaleId: 'volume',
+        });
+
+        chart.priceScale('volume').applyOptions({
+            scaleMargins: {
+                top: 0.8,
+                bottom: 0,
             },
         });
 
-        rsiSeries = rsiChart.addLineSeries({
-            color: '#FF9800',
-            lineWidth: 1,
-            title: 'RSI 14',
+        // Подсказка
+        chart.subscribeCrosshairMove(param => {
+            if (!param.point) return;
+            
+            const data = param.seriesData.get(candleSeries);
+            if (data) {
+                showTooltip(param.point.x, param.point.y, data);
+            } else {
+                hideTooltip();
+            }
         });
 
         // Обработчик изменения размера
-        window.addEventListener('resize', function() {
-            chart.applyOptions({
-                width: chartContainer.clientWidth,
-            });
-        });
+        new ResizeObserver(entries => {
+            if (entries.length === 0) return;
+            const { width, height } = entries[0].contentRect;
+            chart.applyOptions({ width, height: 400 });
+        }).observe(chartContainer);
 
         console.log('График успешно инициализирован');
-        
-        // Генерируем тестовые данные для демонстрации
-        generateSampleData();
         
     } catch (error) {
         console.error('Ошибка при инициализации графика:', error);
@@ -344,29 +174,107 @@ function initializeChart() {
     }
 }
 
+// Загрузка реальных данных с Binance
+async function loadRealChartData() {
+    console.log('Загрузка реальных данных с Binance...');
+    
+    const loadingOverlay = document.getElementById('chartLoadingOverlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.display = 'flex';
+    }
+    
+    try {
+        const data = await fetchBinanceData(currentAsset, currentTimeframe);
+        currentData = data;
+        
+        if (candleSeries && data.length > 0) {
+            candleSeries.setData(data);
+            calculateIndicators();
+            updateCurrentPrice(data[data.length - 1]);
+        }
+        
+        showNotification(`Данные загружены: ${currentAsset}`, 'success');
+        
+    } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        showNotification('Ошибка загрузки данных с Binance', 'error');
+        // Используем демо данные в случае ошибки
+        generateSampleData();
+    } finally {
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+        }
+    }
+}
+
+// Получение данных с Binance API
+async function fetchBinanceData(symbol, interval, limit = 500) {
+    console.log(`Запрос данных: ${symbol}, ${interval}`);
+    
+    const timeframeMap = {
+        '1m': '1m', '5m': '5m', '15m': '15m',
+        '1h': '1h', '4h': '4h', '1d': '1d', '1w': '1w'
+    };
+    
+    const binanceInterval = timeframeMap[interval] || '1h';
+    
+    try {
+        const response = await fetch(
+            `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${binanceInterval}&limit=${limit}`
+        );
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const klines = await response.json();
+        
+        return klines.map(k => ({
+            time: Math.floor(k[0] / 1000),
+            open: parseFloat(k[1]),
+            high: parseFloat(k[2]),
+            low: parseFloat(k[3]),
+            close: parseFloat(k[4]),
+            volume: parseFloat(k[5])
+        }));
+        
+    } catch (error) {
+        console.error('Ошибка получения данных с Binance:', error);
+        throw error;
+    }
+}
+
+// Генерация демо данных (резервный вариант)
 function generateSampleData() {
-    console.log('Генерация тестовых данных...');
+    console.log('Генерация демо данных...');
     
     const sampleData = [];
-    let basePrice = 50000;
-    const now = new Date();
+    let basePrice = currentAsset.includes('BTC') ? 50000 : 
+                   currentAsset.includes('ETH') ? 3000 :
+                   currentAsset.includes('SOL') ? 100 :
+                   currentAsset.includes('ADA') ? 0.5 :
+                   currentAsset.includes('DOT') ? 7 :
+                   currentAsset.includes('BNB') ? 600 :
+                   currentAsset.includes('XRP') ? 0.6 : 0.1;
+    
+    const now = Date.now();
     
     for (let i = 100; i >= 0; i--) {
-        const time = new Date(now);
-        time.setMinutes(time.getMinutes() - i * 60);
+        const time = now - i * 3600000; // 1 час интервал
         
         const open = basePrice;
-        const change = (Math.random() - 0.5) * 1000;
+        const change = (Math.random() - 0.5) * (basePrice * 0.02);
         const close = open + change;
-        const high = Math.max(open, close) + Math.random() * 500;
-        const low = Math.min(open, close) - Math.random() * 500;
+        const high = Math.max(open, close) + Math.random() * (basePrice * 0.01);
+        const low = Math.min(open, close) - Math.random() * (basePrice * 0.01);
         
         sampleData.push({
-            time: Math.floor(time.getTime() / 1000),
+            time: Math.floor(time / 1000),
             open: open,
             high: high,
             low: low,
             close: close,
+            volume: Math.random() * 1000
         });
         
         basePrice = close;
@@ -374,59 +282,131 @@ function generateSampleData() {
     
     currentData = sampleData;
     
-    // Обновляем график
     if (candleSeries) {
         candleSeries.setData(sampleData);
         calculateIndicators();
+        updateCurrentPrice(sampleData[sampleData.length - 1]);
     }
     
-    // Обновляем текущую цену
-    updateCurrentPrice(sampleData[sampleData.length - 1]);
-    
-    console.log('Тестовые данные сгенерированы');
+    console.log('Демо данные сгенерированы');
 }
 
 function calculateIndicators() {
     if (!currentData.length) return;
     
     // SMA 20
-    const smaData = [];
-    for (let i = 19; i < currentData.length; i++) {
-        let sum = 0;
-        for (let j = i - 19; j <= i; j++) {
-            sum += currentData[j].close;
-        }
-        smaData.push({
-            time: currentData[i].time,
-            value: sum / 20
-        });
-    }
-    
-    if (indicators.sma && smaSeries) {
+    if (indicators.sma) {
+        const smaData = calculateSMA(currentData, 20);
         smaSeries.setData(smaData);
     }
     
     // EMA 12
-    const emaData = [];
-    const multiplier = 2 / (12 + 1);
-    let ema = currentData[0].close;
+    if (indicators.ema) {
+        const emaData = calculateEMA(currentData, 12);
+        emaSeries.setData(emaData);
+    }
     
-    emaData.push({
-        time: currentData[0].time,
+    // RSI 14
+    if (indicators.rsi) {
+        const rsiData = calculateRSI(currentData, 14);
+        rsiSeries.setData(rsiData);
+    }
+    
+    updateIndicatorsVisibility();
+}
+
+function calculateSMA(data, period) {
+    const result = [];
+    for (let i = period - 1; i < data.length; i++) {
+        let sum = 0;
+        for (let j = 0; j < period; j++) {
+            sum += data[i - j].close;
+        }
+        result.push({
+            time: data[i].time,
+            value: sum / period
+        });
+    }
+    return result;
+}
+
+function calculateEMA(data, period) {
+    const result = [];
+    const k = 2 / (period + 1);
+    let ema = data[0].close;
+    
+    result.push({
+        time: data[0].time,
         value: ema
     });
     
-    for (let i = 1; i < currentData.length; i++) {
-        ema = (currentData[i].close - ema) * multiplier + ema;
-        emaData.push({
-            time: currentData[i].time,
+    for (let i = 1; i < data.length; i++) {
+        ema = (data[i].close - ema) * k + ema;
+        result.push({
+            time: data[i].time,
             value: ema
         });
     }
+    return result;
+}
+
+function calculateRSI(data, period) {
+    const result = [];
+    let gains = 0;
+    let losses = 0;
     
-    if (indicators.ema && emaSeries) {
-        emaSeries.setData(emaData);
+    // Расчет первых period значений
+    for (let i = 1; i <= period; i++) {
+        const change = data[i].close - data[i - 1].close;
+        if (change >= 0) {
+            gains += change;
+        } else {
+            losses += Math.abs(change);
+        }
     }
+    
+    let avgGain = gains / period;
+    let avgLoss = losses / period;
+    
+    // Расчет остальных значений
+    for (let i = period + 1; i < data.length; i++) {
+        const change = data[i].close - data[i - 1].close;
+        let currentGain = 0;
+        let currentLoss = 0;
+        
+        if (change >= 0) {
+            currentGain = change;
+        } else {
+            currentLoss = Math.abs(change);
+        }
+        
+        avgGain = (avgGain * (period - 1) + currentGain) / period;
+        avgLoss = (avgLoss * (period - 1) + currentLoss) / period;
+        
+        const rs = avgGain / (avgLoss === 0 ? 1 : avgLoss);
+        const rsi = 100 - (100 / (1 + rs));
+        
+        result.push({
+            time: data[i].time,
+            value: rsi
+        });
+    }
+    
+    return result;
+}
+
+function updateIndicatorsVisibility() {
+    smaSeries.applyOptions({
+        visible: indicators.sma
+    });
+    
+    emaSeries.applyOptions({
+        visible: indicators.ema
+    });
+    
+    rsiSeries.applyOptions({
+        visible: indicators.rsi
+    });
 }
 
 function updateCurrentPrice(latestCandle) {
@@ -435,11 +415,77 @@ function updateCurrentPrice(latestCandle) {
     
     if (priceElement && changeElement && latestCandle) {
         const price = latestCandle.close;
-        const change = ((price - latestCandle.open) / latestCandle.open) * 100;
+        
+        // Расчет изменения цены
+        let changePercent = 0;
+        if (currentData.length > 1) {
+            const prevPrice = currentData[currentData.length - 2].close;
+            changePercent = ((price - prevPrice) / prevPrice) * 100;
+        }
         
         priceElement.textContent = price.toFixed(2);
-        changeElement.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
-        changeElement.style.color = change >= 0 ? 'var(--profit)' : 'var(--loss)';
+        changeElement.textContent = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
+        changeElement.className = `price-change ${changePercent >= 0 ? 'positive' : 'negative'}`;
+        
+        // Обновляем статистику рынка
+        updateMarketStats(latestCandle);
+    }
+}
+
+function updateMarketStats(candle) {
+    document.getElementById('volume24h').textContent = formatVolume(candle.volume || 0);
+    document.getElementById('high24h').textContent = candle.high.toFixed(2);
+    document.getElementById('low24h').textContent = candle.low.toFixed(2);
+}
+
+function formatVolume(volume) {
+    if (volume >= 1000000) {
+        return (volume / 1000000).toFixed(2) + 'M';
+    } else if (volume >= 1000) {
+        return (volume / 1000).toFixed(2) + 'K';
+    }
+    return volume.toFixed(2);
+}
+
+function showTooltip(x, y, data) {
+    const tooltip = document.getElementById('chart-tooltip');
+    if (!tooltip) return;
+    
+    const change = ((data.close - data.open) / data.open) * 100;
+    const changeClass = change >= 0 ? 'profit' : 'loss';
+    
+    tooltip.innerHTML = `
+        <div class="tooltip-header">${new Date(data.time * 1000).toLocaleString()}</div>
+        <div class="tooltip-content">
+            <span class="tooltip-label">Open:</span>
+            <span class="tooltip-value">${data.open.toFixed(2)}</span>
+            
+            <span class="tooltip-label">High:</span>
+            <span class="tooltip-value">${data.high.toFixed(2)}</span>
+            
+            <span class="tooltip-label">Low:</span>
+            <span class="tooltip-value">${data.low.toFixed(2)}</span>
+            
+            <span class="tooltip-label">Close:</span>
+            <span class="tooltip-value">${data.close.toFixed(2)}</span>
+            
+            <span class="tooltip-label">Change:</span>
+            <span class="tooltip-value ${changeClass}">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>
+        </div>
+    `;
+    
+    const chartContainer = document.querySelector('.chart-container');
+    const rect = chartContainer.getBoundingClientRect();
+    
+    tooltip.style.left = (x + rect.left) + 'px';
+    tooltip.style.top = (y + rect.top - 100) + 'px';
+    tooltip.style.display = 'block';
+}
+
+function hideTooltip() {
+    const tooltip = document.getElementById('chart-tooltip');
+    if (tooltip) {
+        tooltip.style.display = 'none';
     }
 }
 
@@ -461,31 +507,55 @@ function initializeEventHandlers() {
         });
     });
     
+    // Переключение сайдбара
+    document.getElementById('sidebar-toggle').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('collapsed');
+    });
+    
     // Переключение таймфреймов
     document.querySelectorAll('.timeframe-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             currentTimeframe = this.getAttribute('data-tf');
-            loadChartData();
+            loadRealChartData();
         });
     });
     
     // Выбор актива
     document.getElementById('asset-select').addEventListener('change', function() {
         currentAsset = this.value;
-        loadChartData();
+        document.getElementById('current-asset').textContent = currentAsset.replace('USDT', '/USDT');
+        loadRealChartData();
     });
     
     // Индикаторы
     document.getElementById('sma-toggle').addEventListener('change', function() {
         indicators.sma = this.checked;
         calculateIndicators();
+        saveIndicatorsToLocalStorage();
     });
     
     document.getElementById('ema-toggle').addEventListener('change', function() {
         indicators.ema = this.checked;
         calculateIndicators();
+        saveIndicatorsToLocalStorage();
+    });
+    
+    document.getElementById('rsi-toggle').addEventListener('change', function() {
+        indicators.rsi = this.checked;
+        calculateIndicators();
+        saveIndicatorsToLocalStorage();
+    });
+    
+    document.getElementById('macd-toggle').addEventListener('change', function() {
+        indicators.macd = this.checked;
+        saveIndicatorsToLocalStorage();
+    });
+    
+    document.getElementById('bollinger-toggle').addEventListener('change', function() {
+        indicators.bollinger = this.checked;
+        saveIndicatorsToLocalStorage();
     });
     
     // Кнопки управления графиком
@@ -496,9 +566,8 @@ function initializeEventHandlers() {
     });
     
     document.getElementById('reset-chart-btn').addEventListener('click', function() {
-        generateSampleData();
         if (chart) {
-            chart.timeScale().fitContent();
+            chart.timeScale().resetTimeScale();
         }
     });
     
@@ -515,13 +584,17 @@ function initializeEventHandlers() {
         executeTrade('buy', true);
     });
     
+    // Тип ордера в торговле
+    document.getElementById('order-type-select').addEventListener('change', function() {
+        const limitGroup = document.getElementById('limit-price-group');
+        limitGroup.style.display = this.value === 'limit' ? 'block' : 'none';
+    });
+    
     // Быстрые кнопки процентов
     document.querySelectorAll('.quick-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const percent = parseInt(this.getAttribute('data-percent'));
-            const amountInput = document.getElementById('trade-amount');
-            const maxAmount = balance;
-            amountInput.value = (maxAmount * percent / 100).toFixed(2);
+            setTradeAmountByPercent(percent);
         });
     });
     
@@ -544,6 +617,12 @@ function initializeEventHandlers() {
     
     document.getElementById('ask-question').addEventListener('click', function() {
         askTeacherQuestion();
+    });
+    
+    document.getElementById('teacher-question').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            askTeacherQuestion();
+        }
     });
     
     // Словарь терминов
@@ -642,28 +721,6 @@ function hideAllSections() {
     });
 }
 
-function loadChartData() {
-    console.log(`Загрузка данных для ${currentAsset} на таймфрейме ${currentTimeframe}`);
-    
-    // Показываем индикатор загрузки
-    const loadingOverlay = document.getElementById('chartLoadingOverlay');
-    if (loadingOverlay) {
-        loadingOverlay.style.display = 'flex';
-    }
-    
-    // Имитация загрузки данных
-    setTimeout(() => {
-        generateSampleData();
-        
-        // Скрываем индикатор загрузки
-        if (loadingOverlay) {
-            loadingOverlay.style.display = 'none';
-        }
-        
-        showNotification(`График обновлен: ${currentAsset} (${currentTimeframe})`, 'success');
-    }, 1000);
-}
-
 function executeTrade(type, maxAmount = false) {
     const amountInput = document.getElementById('trade-amount');
     let amount = parseFloat(amountInput.value);
@@ -694,7 +751,7 @@ function executeTrade(type, maxAmount = false) {
         const trade = {
             id: Date.now(),
             type: 'buy',
-            asset: currentAsset,
+            asset: assetSymbol,
             amount: assetAmount,
             price: currentPrice,
             total: amount,
@@ -719,7 +776,7 @@ function executeTrade(type, maxAmount = false) {
         const trade = {
             id: Date.now(),
             type: 'sell',
-            asset: currentAsset,
+            asset: assetSymbol,
             amount: assetAmount,
             price: currentPrice,
             total: amount,
@@ -736,6 +793,11 @@ function executeTrade(type, maxAmount = false) {
     updateTradeHistory();
     updateStatistics();
     saveData();
+}
+
+function setTradeAmountByPercent(percent) {
+    const maxAmount = balance * (percent / 100);
+    document.getElementById('trade-amount').value = maxAmount.toFixed(2);
 }
 
 function updateBalance() {
@@ -760,9 +822,9 @@ function updatePortfolio() {
         let total = balance;
         Object.keys(portfolio).forEach(asset => {
             if (portfolio[asset] > 0) {
-                // Для простоты используем текущую цену BTC для всех активов
-                const price = currentData[currentData.length - 1].close;
-                total += portfolio[asset] * price;
+                // Используем текущую цену для расчета стоимости
+                const currentPrice = currentData[currentData.length - 1].close;
+                total += portfolio[asset] * currentPrice;
             }
         });
         totalElement.textContent = total.toFixed(2) + ' USDT';
@@ -782,20 +844,37 @@ function updateTradeHistory() {
         return;
     }
     
-    historyContainer.innerHTML = tradeHistory.map(trade => `
-        <div class="history-item ${trade.type}">
-            <div class="trade-info">
-                <span class="trade-type">${trade.type === 'buy' ? '🟢 ПОКУПКА' : '🔴 ПРОДАЖА'}</span>
-                <span class="trade-asset">${trade.asset}</span>
+    historyContainer.innerHTML = tradeHistory.slice().reverse().map(trade => {
+        const isProfit = trade.type === 'sell' && isTradeProfitable(trade);
+        return `
+            <div class="history-item ${trade.type === 'buy' ? '' : (isProfit ? '' : 'loss')}">
+                <div class="history-info">
+                    <div class="history-type">${trade.type === 'buy' ? 'Покупка' : 'Продажа'} ${trade.asset}</div>
+                    <div class="history-details">
+                        ${trade.timestamp} | 
+                        Цена: ${trade.price.toFixed(2)} | 
+                        Объем: ${trade.amount.toFixed(6)}
+                    </div>
+                </div>
+                <div class="history-amount ${trade.type === 'buy' ? 'loss' : (isProfit ? 'profit' : 'loss')}">
+                    ${trade.type === 'buy' ? '-' : (isProfit ? '+' : '-')}${trade.total.toFixed(2)} USDT
+                </div>
             </div>
-            <div class="trade-details">
-                <span>${trade.amount.toFixed(6)}</span>
-                <span>${trade.price.toFixed(2)} USDT</span>
-                <span>${trade.total.toFixed(2)} USDT</span>
-            </div>
-            <div class="trade-time">${trade.timestamp}</div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
+}
+
+function isTradeProfitable(sellTrade) {
+    const buyTrades = tradeHistory.filter(t => 
+        t.type === 'buy' && t.asset === sellTrade.asset && t.timestamp < sellTrade.timestamp
+    );
+    if (buyTrades.length === 0) return false;
+    
+    const totalBuyAmount = buyTrades.reduce((sum, t) => sum + t.amount, 0);
+    const totalBuyCost = buyTrades.reduce((sum, t) => sum + (t.amount * t.price), 0);
+    const avgBuyPrice = totalBuyCost / totalBuyAmount;
+    
+    return sellTrade.price > avgBuyPrice;
 }
 
 function updateStatistics() {
@@ -810,8 +889,9 @@ function updateStatistics() {
     
     // Простая логика для демонстрации
     if (winRate) {
-        const wins = tradeHistory.filter(t => t.profit > 0).length;
-        const rate = tradeHistory.length > 0 ? (wins / tradeHistory.length * 100) : 0;
+        const wins = tradeHistory.filter(t => t.type === 'sell' && isTradeProfitable(t)).length;
+        const rate = tradeHistory.filter(t => t.type === 'sell').length > 0 ? 
+            (wins / tradeHistory.filter(t => t.type === 'sell').length * 100) : 0;
         winRate.querySelector('.stat-value').textContent = rate.toFixed(1) + '%';
     }
     
@@ -820,61 +900,153 @@ function updateStatistics() {
         totalProfit.querySelector('.stat-value').textContent = profit.toFixed(2) + ' USDT';
         totalProfit.querySelector('.stat-value').style.color = profit >= 0 ? 'var(--profit)' : 'var(--loss)';
     }
+    
+    if (avgTrade) {
+        const profit = equityCurve[equityCurve.length - 1] - 100;
+        const avg = tradeHistory.length > 0 ? (profit / tradeHistory.length) : 0;
+        avgTrade.querySelector('.stat-value').textContent = avg.toFixed(2) + '%';
+    }
 }
 
 function updateEquityChart() {
     // Простая реализация графика доходности
     const equityChart = document.getElementById('equity-chart');
     if (equityChart && equityCurve.length > 1) {
-        // Здесь можно добавить реализацию графика с помощью библиотеки
         equityChart.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--text-secondary);">
-            График доходности: ${equityCurve[equityCurve.length - 1].toFixed(2)} USDT
+            📈 Общая доходность: ${((equityCurve[equityCurve.length - 1] - 100) / 100 * 100).toFixed(2)}%
+            <br>Текущий баланс: ${equityCurve[equityCurve.length - 1].toFixed(2)} USDT
         </div>`;
     }
 }
 
+// База знаний учителя
+const teacherKnowledge = {
+    questions: {
+        'что такое трейдинг': 'Трейдинг - это торговля финансовыми инструментами с целью получения прибыли от изменения их цены.',
+        'как начать торговать': 'Начните с изучения основ, откройте демо-счет, разработайте стратегию и торгуйте на небольшие суммы.',
+        'что такое стоп лосс': 'Стоп-лосс - это ордер, который автоматически закрывает позицию при достижении определенного уровня убытка.',
+        'что такое тейк профит': 'Тейк-профит - это ордер, который автоматически закрывает позицию при достижении определенного уровня прибыли.',
+        'как анализировать график': 'Используйте технический анализ: изучайте свечные паттерны, индикаторы, уровни поддержки и сопротивления.',
+        'что такое бычий рынок': 'Бычий рынок - это период роста цен, когда инвесторы настроены оптимистично.',
+        'что такое медвежий рынок': 'Медвежий рынок - это период падения цен, когда инвесторы настроены пессимистично.',
+        'как управлять рисками': 'Рискуйте не более 1-2% от депозита на сделку, используйте стоп-лосс и диверсифицируйте портфель.',
+        'что такое диверсификация': 'Диверсификация - это распределение капитала между разными активами для снижения рисков.',
+        'какие индикаторы использовать': 'Начните с SMA, EMA, RSI и MACD. Каждый индикатор имеет свои особенности и сигналы.',
+        'что такое leverage': 'Кредитное плечо позволяет торговать большими объемами при меньшем депозите, но увеличивает риски.',
+        'как читать свечи': 'Японские свечи показывают цену открытия, закрытия, максимум и минимум за период времени.'
+    },
+
+    lessons: {
+        'basics': {
+            title: '📖 Основы трейдинга',
+            content: `Трейдинг - это искусство buying low and selling high (покупать дешево, продавать дорого). 
+            
+Основные понятия:
+• Long (лонг) - покупка актива в ожидании роста цены
+• Short (шорт) - продажа актива в ожидании падения цены  
+• Spread (спред) - разница между ценой покупки и продажи
+• Volume (объем) - количество торгуемых активов
+• Liquidity (ликвидность) - возможность быстро купить/продать актив
+
+Важно: никогда не рискуйте больше, чем можете позволить себе потерять!`
+        },
+        'candles': {
+            title: '🕯️ Свечной анализ',
+            content: `Японские свечи показывают цену открытия, закрытия, максимум и минимум за период.
+
+Основные паттерны:
+• Бычья свеча - закрытие выше открытия (обычно зеленая)
+• Медвежья свеча - закрытие ниже открытия (обычно красная)  
+• Доджи - маленькое тело, нерешительность рынка
+• Молот - бычий разворотный паттерн
+• Повешенный - медвежий разворотный паттерн
+• Поглощение - большая свеча перекрывает предыдущую
+
+Анализируйте свечи в контексте тренда!`
+        },
+        'indicators': {
+            title: '📊 Технические индикаторы',
+            content: `Индикаторы помогают анализировать рынок и находить точки входа.
+
+Популярные индикаторы:
+• SMA (Simple Moving Average) - простая скользящая средняя
+• EMA (Exponential Moving Average) - экспоненциальная скользящая средняя  
+• RSI (Relative Strength Index) - индекс относительной силы
+• MACD (Moving Average Convergence Divergence) - схождение/расхождение скользящих средних
+• Bollinger Bands - полосы Боллинджера для анализа волатильности
+
+Не используйте слишком много индикаторов - это создаст путаницу!`
+        },
+        'risk': {
+            title: '🛡️ Управление рисками',
+            content: `Управление рисками - ключ к успешному трейдингу!
+
+Основные правила:
+• Рискуйте не более 1-2% от депозита на сделку
+• Всегда устанавливайте стоп-лосс
+• Соотношение риск/прибыль должно быть не менее 1:2
+• Ведите торговый журнал
+• Контролируйте эмоции - жадность и страх главные враги трейдера
+
+Помните: сохранить капитал важнее, чем заработать!`
+        }
+    },
+
+    dictionary: {
+        'sma': {
+            title: 'SMA (Simple Moving Average)',
+            description: 'Простая скользящая средняя - индикатор, показывающий среднюю цену актива за определенный период. Сглаживает ценовые колебания и помогает определить тренд.'
+        },
+        'ema': {
+            title: 'EMA (Exponential Moving Average)',
+            description: 'Экспоненциальная скользящая средняя - похожа на SMA, но придает больший вес последним ценам, что делает ее более чувствительной к недавним изменениям цены.'
+        },
+        'rsi': {
+            title: 'RSI (Relative Strength Index)',
+            description: 'Индекс относительной силы - осциллятор, измеряющий скорость и изменение ценовых движений. Значения выше 70 указывают на перекупленность, ниже 30 - на перепроданность.'
+        },
+        'macd': {
+            title: 'MACD (Moving Average Convergence Divergence)',
+            description: 'Индикатор, показывающий взаимосвязь между двумя скользящими средними. Помогает определить момент изменения тренда.'
+        },
+        'bollinger': {
+            title: 'Полосы Боллинджера (Bollinger Bands)',
+            description: 'Технический индикатор, состоящий из трех линий, который показывает волатильность рынка и потенциальные уровни поддержки и сопротивления.'
+        }
+    }
+};
+
 function showTeacherHint() {
-    const hints = [
-        "💡 Обратите внимание на текущий тренд на графике",
-        "💡 Используйте стоп-лосс для ограничения убытков",
-        "💡 Не рискуйте более 2% депозита в одной сделке",
-        "💡 Анализируйте объемы торгов для подтверждения тренда",
-        "💡 Следите за уровнями поддержки и сопротивления",
-        "💡 Используйте несколько таймфреймов для анализа",
-        "💡 Не поддавайтесь эмоциям - торгуйте по плану"
+    const messages = [
+        "Помните о стоп-лоссах! Рискуйте не более 2% от депозита.",
+        "Анализируйте график перед совершением сделки. Ищите подтверждения!",
+        "Не поддавайтесь эмоциям - торгуйте по плану, а не по настроению.",
+        "Диверсифицируйте портфель для снижения рисков. Не кладите все яйца в одну корзину!",
+        "Изучайте основы технического анализа - это фундамент успешного трейдинга.",
+        "Ведите торговый журнал! Анализируйте свои успехи и ошибки.",
+        "Тренд - ваш друг. Не пытайтесь торговать против тренда, особенно новичкам.",
+        "Паттерны повторяются! Изучайте исторические данные и графические модели.",
+        "Управление капиталом важнее, чем точность прогнозов!",
+        "Обучайтесь постоянно! Рынки меняются, и ваши знания должны обновляться."
     ];
     
-    const randomHint = hints[Math.floor(Math.random() * hints.length)];
-    document.getElementById('teacher-message').textContent = randomHint;
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    document.getElementById('teacher-message').textContent = randomMessage;
 }
 
 function showTeacherAnalysis() {
-    const latestCandle = currentData[currentData.length - 1];
-    const prevCandle = currentData[currentData.length - 2];
+    const currentPrice = currentData[currentData.length - 1].close;
+    const analysis = `Текущая цена ${currentAsset}: ${currentPrice.toFixed(2)}. `;
     
-    if (!latestCandle || !prevCandle) return;
-    
-    const change = ((latestCandle.close - prevCandle.close) / prevCandle.close) * 100;
-    
-    let analysis = `📊 Анализ текущей ситуации:
-    
-Цена: ${latestCandle.close.toFixed(2)} USDT
-Изменение: ${change >= 0 ? '+' : ''}${change.toFixed(2)}%
-Объем: Анализируйте паттерны...
-
-`;
-    
-    if (change > 2) {
-        analysis += "📈 Сильный восходящий импульс. Возможность для покупки на откате.";
-    } else if (change < -2) {
-        analysis += "📉 Сильный нисходящий импульс. Рассмотрите продажи на отскоке.";
-    } else {
-        analysis += "➡️ Боковое движение. Ожидайте пробой уровня для определения направления.";
+    // Простой анализ на основе последних данных
+    let recommendation = "Рекомендую изучить график и индикаторы.";
+    if (currentData.length > 1) {
+        const prevPrice = currentData[currentData.length - 2].close;
+        const trend = currentPrice > prevPrice ? "восходящий" : "нисходящий";
+        recommendation = `Наблюдается ${trend} тренд. ${recommendation}`;
     }
     
-    analysis += "\n\nРекомендация: Используйте стоп-лосс и торгуйте малыми объемами.";
-    
-    document.getElementById('teacher-message').textContent = analysis;
+    document.getElementById('teacher-message').textContent = analysis + recommendation;
 }
 
 function toggleTeacherLessons() {
@@ -898,8 +1070,10 @@ function toggleTeacherDictionary() {
 function showLesson(lessonKey) {
     const lesson = teacherKnowledge.lessons[lessonKey];
     if (lesson) {
-        document.getElementById('teacher-message').textContent = lesson.content;
-        document.getElementById('teacher-lessons').style.display = 'none';
+        document.getElementById('teacher-message').innerHTML = `
+            <strong>${lesson.title}</strong><br><br>
+            ${lesson.content.replace(/\n/g, '<br>')}
+        `;
     }
 }
 
@@ -922,18 +1096,14 @@ function askTeacherQuestion() {
         return;
     }
     
-    let answer = null;
+    let answer = "Извините, я не понял вопрос. Попробуйте спросить о: трейдинге, индикаторах, рисках, стоп-лоссе или тейк-профите.";
     
-    // Поиск ответа в базе знаний
+    // Поиск в базе знаний
     for (const [key, value] of Object.entries(teacherKnowledge.questions)) {
         if (question.includes(key)) {
             answer = value;
             break;
         }
-    }
-    
-    if (!answer) {
-        answer = "Пока я не могу ответить на этот вопрос. Попробуйте задать вопрос про основы трейдинга, технический анализ или управление рисками.";
     }
     
     document.getElementById('teacher-message').textContent = `❓ Ваш вопрос: ${question}\n\n💡 Ответ: ${answer}`;
@@ -1002,34 +1172,25 @@ function updateOrdersDisplay() {
     }
     
     ordersContainer.innerHTML = activeOrders.map(order => `
-        <div class="order-item">
-            <div class="order-header">
-                <span class="order-type">${getOrderTypeText(order.type)}</span>
-                <span class="order-asset">${order.asset}</span>
-                <button class="cancel-order" data-id="${order.id}">❌</button>
+        <div class="order-item ${order.type.toLowerCase().replace('_', '-')}">
+            <div class="order-info">
+                <div class="order-type">${getOrderTypeText(order.type)}</div>
+                <div class="order-details">
+                    ${order.asset} | Цена: ${order.price.toFixed(2)} | Объем: ${order.amount.toFixed(6)}
+                </div>
             </div>
-            <div class="order-details">
-                <span>Цена: ${order.price.toFixed(2)}</span>
-                <span>Объем: ${order.amount.toFixed(6)}</span>
-                <span>Создан: ${order.timestamp}</span>
+            <div class="order-actions">
+                <button class="order-cancel-btn" onclick="cancelOrder(${order.id})">Отмена</button>
             </div>
         </div>
     `).join('');
-    
-    // Добавляем обработчики для кнопок отмены
-    document.querySelectorAll('.cancel-order').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const orderId = parseInt(this.getAttribute('data-id'));
-            cancelOrder(orderId);
-        });
-    });
 }
 
 function getOrderTypeText(type) {
     const types = {
-        'STOP': '🛡️ Стоп-лосс',
-        'TAKE_PROFIT': '💰 Тейк-профит',
-        'STOP_LIMIT': '🎯 Стоп-лимит'
+        'STOP': 'Стоп-лосс',
+        'TAKE_PROFIT': 'Тейк-профит',
+        'STOP_LIMIT': 'Стоп-лимит'
     };
     return types[type] || type;
 }
@@ -1057,99 +1218,6 @@ function switchAnalysisTab(tabName) {
             content.classList.add('active');
         }
     });
-    
-    // Обновляем данные для выбранной вкладки
-    updateAnalysisData(tabName);
-}
-
-function updateAnalysisData(tabName) {
-    const latestCandle = currentData[currentData.length - 1];
-    if (!latestCandle) return;
-    
-    switch (tabName) {
-        case 'trend':
-            updateTrendAnalysis(latestCandle);
-            break;
-        case 'volatility':
-            updateVolatilityAnalysis(latestCandle);
-            break;
-        case 'support':
-            updateSupportAnalysis(latestCandle);
-            break;
-        case 'sentiment':
-            updateSentimentAnalysis(latestCandle);
-            break;
-    }
-}
-
-function updateTrendAnalysis(candle) {
-    // Простой анализ тренда на основе последних свечей
-    const recentCandles = currentData.slice(-10);
-    const ups = recentCandles.filter(c => c.close > c.open).length;
-    const downs = recentCandles.length - ups;
-    
-    document.getElementById('current-trend').textContent = ups > downs ? '📈 Восходящий' : downs > ups ? '📉 Нисходящий' : '➡️ Боковой';
-    document.getElementById('current-trend').style.color = ups > downs ? 'var(--profit)' : downs > ups ? 'var(--loss)' : 'var(--text-secondary)';
-    
-    document.getElementById('trend-strength').textContent = Math.abs(ups - downs) >= 3 ? 'Сильный' : 'Слабый';
-    document.getElementById('rsi-value').textContent = '50.0';
-    document.getElementById('macd-value').textContent = 'Нейтральный';
-    document.getElementById('adx-value').textContent = '25.0';
-}
-
-function updateVolatilityAnalysis(candle) {
-    // Простой расчет волатильности
-    const recentCandles = currentData.slice(-20);
-    const highs = recentCandles.map(c => c.high);
-    const lows = recentCandles.map(c => c.low);
-    const maxHigh = Math.max(...highs);
-    const minLow = Math.min(...lows);
-    const volatility = ((maxHigh - minLow) / minLow) * 100;
-    
-    document.getElementById('atr-value').textContent = (volatility / 2).toFixed(2);
-    document.getElementById('daily-volatility').textContent = volatility.toFixed(2) + '%';
-    document.getElementById('std-dev').textContent = (volatility / 4).toFixed(2);
-    document.getElementById('beta-value').textContent = '1.0';
-}
-
-function updateSupportAnalysis(candle) {
-    // Простые расчеты уровней поддержки/сопротивления
-    const recentCandles = currentData.slice(-50);
-    const highs = recentCandles.map(c => c.high);
-    const lows = recentCandles.map(c => c.low);
-    
-    const resistance = Math.max(...highs);
-    const support = Math.min(...lows);
-    const pivot = (resistance + support + candle.close) / 3;
-    
-    document.getElementById('resistance-level').textContent = resistance.toFixed(2);
-    document.getElementById('support-level').textContent = support.toFixed(2);
-    document.getElementById('pivot-level').textContent = pivot.toFixed(2);
-    document.getElementById('r1-level').textContent = (pivot * 2 - support).toFixed(2);
-    document.getElementById('s1-level').textContent = (pivot * 2 - resistance).toFixed(2);
-}
-
-function updateSentimentAnalysis(candle) {
-    // Простой анализ сентимента
-    const change = ((candle.close - candle.open) / candle.open) * 100;
-    
-    let sentiment = 'Нейтральный';
-    let sentimentColor = 'var(--text-secondary)';
-    
-    if (change > 2) {
-        sentiment = 'Бычий';
-        sentimentColor = 'var(--profit)';
-    } else if (change < -2) {
-        sentiment = 'Медвежий';
-        sentimentColor = 'var(--loss)';
-    }
-    
-    document.getElementById('overall-sentiment').textContent = sentiment;
-    document.getElementById('overall-sentiment').style.color = sentimentColor;
-    document.getElementById('buyer-strength').textContent = change > 0 ? 'Сильная' : 'Слабая';
-    document.getElementById('seller-strength').textContent = change < 0 ? 'Сильная' : 'Слабая';
-    document.getElementById('sentiment-recommendation').textContent = 
-        change > 1 ? 'Рассмотреть покупку' : change < -1 ? 'Рассмотреть продажу' : 'Ожидать';
 }
 
 function filterHistory(filterType) {
@@ -1187,23 +1255,45 @@ function updateSignalsDisplay() {
     // Простое отображение сигналов
     signalsList.innerHTML = tradingSignals.map(signal => `
         <div class="signal-item ${signal.type}">
-            <div class="signal-icon">${signal.type === 'buy' ? '🟢' : signal.type === 'sell' ? '🔴' : '⚠️'}</div>
-            <div class="signal-content">
-                <div class="signal-title">${signal.title}</div>
+            <div class="signal-info">
+                <div class="signal-type">${getSignalTypeText(signal.type)}</div>
                 <div class="signal-desc">${signal.description}</div>
                 <div class="signal-time">${signal.timestamp}</div>
             </div>
+            <div class="signal-strength ${signal.strength}">
+                ${getStrengthText(signal.strength)}
+            </div>
         </div>
     `).join('');
+}
+
+function getSignalTypeText(type) {
+    const typeMap = {
+        'buy': '🟢 Покупка',
+        'sell': '🔴 Продажа',
+        'warning': '🟡 Внимание'
+    };
+    return typeMap[type] || type;
+}
+
+function getStrengthText(strength) {
+    const strengthMap = {
+        'high': 'Высокая',
+        'medium': 'Средняя',
+        'low': 'Низкая'
+    };
+    return strengthMap[strength] || strength;
 }
 
 function showDetailedStatistics() {
     const stats = `
 Общая статистика:
 - Всего сделок: ${tradeHistory.length}
-- Прибыльных: ${tradeHistory.filter(t => t.profit > 0).length}
-- Убыточных: ${tradeHistory.filter(t => t.profit < 0).length}
-- Процент побед: ${tradeHistory.length > 0 ? (tradeHistory.filter(t => t.profit > 0).length / tradeHistory.length * 100).toFixed(1) : 0}%
+- Прибыльных: ${tradeHistory.filter(t => t.type === 'sell' && isTradeProfitable(t)).length}
+- Убыточных: ${tradeHistory.filter(t => t.type === 'sell' && !isTradeProfitable(t)).length}
+- Процент побед: ${tradeHistory.filter(t => t.type === 'sell').length > 0 ? 
+    (tradeHistory.filter(t => t.type === 'sell' && isTradeProfitable(t)).length / 
+     tradeHistory.filter(t => t.type === 'sell').length * 100).toFixed(1) : 0}%
 - Общая прибыль: ${(equityCurve[equityCurve.length - 1] - 100).toFixed(2)} USDT
 - Максимальная просадка: 0.00 USDT
     `;
@@ -1219,8 +1309,11 @@ function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.innerHTML = `
-        <span class="notification-message">${message}</span>
-        <button class="notification-close">×</button>
+        <div class="notification-header">
+            <div class="notification-title">${type === 'success' ? '✅ Успех' : type === 'error' ? '❌ Ошибка' : 'ℹ️ Информация'}</div>
+            <button class="notification-close">✕</button>
+        </div>
+        <div class="notification-message">${message}</div>
     `;
     
     container.appendChild(notification);
@@ -1228,15 +1321,13 @@ function showNotification(message, type = 'info') {
     // Автоматическое удаление через 5 секунд
     setTimeout(() => {
         if (notification.parentNode) {
-            notification.style.opacity = '0';
-            setTimeout(() => notification.remove(), 300);
+            notification.remove();
         }
     }, 5000);
     
     // Закрытие по клику
     notification.querySelector('.notification-close').addEventListener('click', function() {
-        notification.style.opacity = '0';
-        setTimeout(() => notification.remove(), 300);
+        notification.remove();
     });
 }
 
@@ -1254,6 +1345,10 @@ function saveData() {
     
     localStorage.setItem('tradelearn-data', JSON.stringify(data));
     updateDataInfo();
+}
+
+function saveIndicatorsToLocalStorage() {
+    localStorage.setItem('tradelearn-indicators', JSON.stringify(indicators));
 }
 
 function loadSavedData() {
@@ -1274,12 +1369,29 @@ function loadSavedData() {
             updateStatistics();
             updateDataInfo();
             
-            showNotification('Данные загружены', 'success');
         } catch (error) {
             console.error('Ошибка загрузки данных:', error);
-            showNotification('Ошибка загрузки данных', 'error');
         }
     }
+    
+    // Загрузка настроек индикаторов
+    const savedIndicators = localStorage.getItem('tradelearn-indicators');
+    if (savedIndicators) {
+        try {
+            indicators = {...indicators, ...JSON.parse(savedIndicators)};
+            updateIndicatorCheckboxes();
+        } catch (error) {
+            console.error('Ошибка загрузки настроек индикаторов:', error);
+        }
+    }
+}
+
+function updateIndicatorCheckboxes() {
+    document.getElementById('sma-toggle').checked = indicators.sma;
+    document.getElementById('ema-toggle').checked = indicators.ema;
+    document.getElementById('rsi-toggle').checked = indicators.rsi;
+    document.getElementById('macd-toggle').checked = indicators.macd;
+    document.getElementById('bollinger-toggle').checked = indicators.bollinger;
 }
 
 function exportData() {
@@ -1382,14 +1494,17 @@ function loadInitialData() {
     updateStatistics();
     updateDataInfo();
     
-    // Имитация подключения к рынку
+    // Обновляем статус подключения
     setTimeout(() => {
-        document.getElementById('connection-status').textContent = 'Подключено';
-        document.getElementById('connection-status').style.color = 'var(--profit)';
+        document.getElementById('connection-status').textContent = '✅ Подключено к Binance';
+        document.getElementById('connection-status').className = 'connection-status connected';
     }, 2000);
 }
 
-// Стили для уведомлений (добавляем динамически)
+// Глобальные функции
+window.cancelOrder = cancelOrder;
+
+// Стили для уведомлений
 const notificationStyles = `
 .notification {
     position: fixed;
@@ -1397,28 +1512,32 @@ const notificationStyles = `
     right: 20px;
     background: var(--surface);
     border-left: 4px solid var(--primary);
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 300px;
-    z-index: 1000;
+    padding: 12px 15px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     animation: slideIn 0.3s ease;
-    transition: opacity 0.3s ease;
+    max-width: 300px;
+    z-index: 10000;
 }
 
 .notification.success {
-    border-left-color: var(--profit);
+    border-left-color: var(--success);
 }
 
 .notification.error {
-    border-left-color: var(--loss);
+    border-left-color: var(--error);
 }
 
-.notification.warning {
-    border-left-color: var(--warning);
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
 .notification-close {
@@ -1426,17 +1545,12 @@ const notificationStyles = `
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    font-size: 18px;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 1rem;
 }
 
-.notification-close:hover {
-    color: var(--text);
+.notification-message {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
 }
 
 @keyframes slideIn {
