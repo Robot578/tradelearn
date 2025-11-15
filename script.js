@@ -1,329 +1,365 @@
-// Простой тренажер трейдинга
-class TradeLearn {
-    constructor() {
-        this.balance = 10000.00;
-        this.portfolio = {
-            'BTC': 0,
-            'ETH': 0,
-            'ADA': 0
-        };
-        this.currentPrice = 45000;
-        this.priceHistory = [];
-        this.isAITyping = false;
+// Добавляем в начало вашего script.js
+
+// База знаний ИИ-учителя
+const aiTeacher = {
+    // Приветственные сообщения
+    greetings: [
+        "Привет! Я ваш ИИ-помощник в TradeLearn! 🎓",
+        "Рад вас видеть! Давайте освоим трейдинг вместе! 📈",
+        "Приветствую! Готовы стать успешным трейдером? ⚡"
+    ],
+
+    // Объяснения разделов
+    explanations: {
+        chart: `📊 <strong>Это график цен!</strong>\n\n• <strong>Японские свечи</strong> показывают цену открытия, закрытия, максимум и минимум\n• <strong>Зеленая свеча</strong> - цена выросла за период\n• <strong>Красная свеча</strong> - цена упала за период\n• <strong>Таймфреймы</strong> (1h, 4h, 1d) - временные интервалы\n\n💡 <strong>Совет:</strong> Изучите тренд перед сделкой!`,
+
+        trading: `⚡ <strong>Торговля - это просто!</strong>\n\n• <strong>КУПИТЬ (LONG)</strong> - если ожидаете рост цены\n• <strong>ПРОДАТЬ (SHORT)</strong> - если ожидаете падение цены\n• <strong>USDT</strong> - стейблкоин, ваша валюта для торговли\n• <strong>Сумма</strong> - сколько вы хотите инвестировать\n\n🎯 <strong>Правило:</strong> Начинайте с малых сумм!`,
+
+        portfolio: `💼 <strong>Ваш инвестиционный портфель</strong>\n\n• <strong>Баланс USDT</strong> - ваши доступные средства\n• <strong>Криптовалюты</strong> - активы которые вы купили\n• <strong>Общая стоимость</strong> - суммарная стоимость портфеля\n\n🛡️ <strong>Важно:</strong> Диверсифицируйте инвестиции!`,
+
+        analyze: function(currentPrice, change) {
+            let analysis = `🔍 <strong>Анализ текущего графика:</strong>\n\n`;
+            analysis += `• <strong>Цена:</strong> $${currentPrice.toFixed(2)}\n`;
+            analysis += `• <strong>Изменение:</strong> ${change >= 0 ? '+' : ''}${change.toFixed(2)}%\n\n`;
+            
+            if (change > 2) {
+                analysis += `📈 <strong>Сильный восходящий тренд!</strong>\n`;
+                analysis += `💡 Рассмотрите покупку, но будьте осторожны - может быть коррекция.`;
+            } else if (change > 0) {
+                analysis += `↗️ <strong>Умеренный рост</strong>\n`;
+                analysis += `💡 Возможны хорошие точки для входа.`;
+            } else if (change > -2) {
+                analysis += `↙️ <strong>Небольшое снижение</strong>\n`;
+                analysis += `💡 Рынок в неопределенности, ждите четких сигналов.`;
+            } else {
+                analysis += `📉 <strong>Сильное снижение</strong>\n`;
+                analysis += `💡 Будьте осторожны, возможна дальнейшая просадка.`;
+            }
+            
+            return analysis;
+        }
+    },
+
+    // Ответы на вопросы
+    answers: {
+        'что такое': {
+            'трейдинг': 'Трейдинг - это покупка и продажа активов с целью получения прибыли от изменения их цены! 📈',
+            'биткоин': 'Биткоин (BTC) - первая и самая известная криптовалюта. Используется как цифровое золото! ฿',
+            'эфириум': 'Эфириум (ETH) - платформа для смарт-контрактов и dApps. Вторая по капитализации криптовалюта! ⟠',
+            'криптовалюта': 'Криптовалюта - цифровые деньги на основе блокчейна. Децентрализованы и защищены криптографией! 🔐'
+        },
+        'как': {
+            'начать': 'Начните с изучения графика, затем совершите первую сделку на небольшую сумму! 🎯',
+            'заработать': 'Покупайте дешевле, продавайте дороже! Но помните - всегда есть риски. 💰',
+            'анализировать': 'Изучайте тренды, объемы торгов и используйте технические индикаторы! 📊'
+        },
+        'что': {
+            'лучше': 'Лучше начать с BTC или ETH - они более стабильны чем альткоины! ⚖️',
+            'риск': 'Риск есть всегда! Никогда не инвестируйте больше чем можете позволить себе потерять! 🛡️'
+        }
+    },
+
+    // Советы
+    tips: [
+        "💡 Начинайте с демо-счета прежде чем торговать на реальные деньги!",
+        "🎯 Рискуйте не более 2% от депозита в одной сделке!",
+        "📚 Изучайте технический анализ - это основа успешного трейдинга!",
+        "🛡️ Всегда используйте стоп-лосс для ограничения убытков!",
+        "💪 Контролируйте эмоции - жадность и страх главные враги трейдера!",
+        "📊 Ведите торговый журнал для анализа своих ошибок и успехов!"
+    ],
+
+    // Генерация ответа на вопрос
+    getAnswer: function(question) {
+        question = question.toLowerCase();
         
+        // Приветствия
+        if (question.includes('привет') || question.includes('здравств')) {
+            return this.greetings[Math.floor(Math.random() * this.greetings.length)];
+        }
+        
+        // Благодарности
+        if (question.includes('спасибо') || question.includes('благодар')) {
+            return "Всегда рад помочь! 🎉 Продолжайте обучение - каждый шаг приближает вас к успеху!";
+        }
+        
+        // Поиск в базе ответов
+        for (const [key, answers] of Object.entries(this.answers)) {
+            if (question.includes(key)) {
+                for (const [term, answer] of Object.entries(answers)) {
+                    if (question.includes(term)) {
+                        return answer;
+                    }
+                }
+            }
+        }
+        
+        // Случайный совет если вопрос не распознан
+        return this.tips[Math.floor(Math.random() * this.tips.length)];
+    }
+};
+
+// ИИ-помощник
+class AITeacher {
+    constructor() {
+        this.currentStep = 1;
+        this.isTyping = false;
         this.init();
     }
 
     init() {
         this.setupEventListeners();
-        this.generatePriceHistory();
-        this.drawChart();
-        this.updateUI();
-        
-        // Показать приветственное сообщение
-        setTimeout(() => {
-            this.showAIMessage("Привет! Я ваш AI-помощник. Готов помочь вам освоить трейдинг! 📈");
-        }, 1000);
+        this.showWelcomeMessage();
     }
 
     setupEventListeners() {
-        // Торговля
-        document.getElementById('buy-btn').addEventListener('click', () => this.executeTrade('buy'));
-        document.getElementById('sell-btn').addEventListener('click', () => this.executeTrade('sell'));
-        
-        // AI Учитель
-        document.getElementById('ai-send').addEventListener('click', () => this.processAIMessage());
-        document.getElementById('ai-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.processAIMessage();
-        });
-        
-        // Быстрые действия AI
-        document.querySelectorAll('.ai-btn').forEach(btn => {
+        // Быстрые действия
+        document.querySelectorAll('.ai-action-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const action = e.target.dataset.action;
-                this.handleAIAction(action);
+                const action = e.currentTarget.dataset.action;
+                this.handleQuickAction(action);
             });
         });
-        
-        // Изменение актива
-        document.getElementById('asset-select').addEventListener('change', (e) => {
-            this.currentPrice = this.getAssetPrice(e.target.value);
-            this.generatePriceHistory();
-            this.drawChart();
-            this.updatePriceDisplay();
-        });
-        
-        // Таймфреймы
-        document.querySelectorAll('.timeframe').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.timeframe').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                this.generatePriceHistory();
-                this.drawChart();
+
+        // Шаги обучения
+        document.querySelectorAll('.tutorial-step').forEach(step => {
+            step.addEventListener('click', (e) => {
+                const stepNum = parseInt(e.currentTarget.dataset.step);
+                this.showTutorialStep(stepNum);
             });
         });
-        
-        // Симуляция изменения цены
-        setInterval(() => this.updatePrice(), 3000);
+
+        // Чат с ИИ
+        document.getElementById('send-ai-message').addEventListener('click', () => {
+            this.processUserMessage();
+        });
+
+        document.getElementById('ai-chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.processUserMessage();
+        });
+
+        // Всплывающий помощник
+        document.getElementById('ai-helper').addEventListener('click', () => {
+            this.showContextHelp();
+        });
+
+        // Автоматические подсказки при переходе по разделам
+        this.setupSectionHelp();
     }
 
-    getAssetPrice(asset) {
-        const prices = {
-            'BTC': 45000,
-            'ETH': 3000,
-            'ADA': 0.5
-        };
-        return prices[asset] || 45000;
-    }
-
-    generatePriceHistory() {
-        this.priceHistory = [];
-        let price = this.currentPrice;
-        
-        for (let i = 0; i < 50; i++) {
-            // Случайное движение цены
-            const change = (Math.random() - 0.5) * 0.02; // ±1%
-            price = price * (1 + change);
-            this.priceHistory.push({
-                time: i,
-                price: price
+    setupSectionHelp() {
+        // Следим за переходами между разделами
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const target = mutation.target;
+                    if (target.classList.contains('active')) {
+                        this.showSectionIntroduction(target.id);
+                    }
+                }
             });
-        }
-        
-        this.currentPrice = price;
-    }
-
-    drawChart() {
-        const canvas = document.getElementById('priceChart');
-        const ctx = canvas.getContext('2d');
-        
-        // Установка размеров
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        
-        // Очистка
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        if (this.priceHistory.length === 0) return;
-        
-        // Находим min и max цены
-        const prices = this.priceHistory.map(p => p.price);
-        const minPrice = Math.min(...prices);
-        const maxPrice = Math.max(...prices);
-        const priceRange = maxPrice - minPrice;
-        
-        // Настройки графика
-        const padding = 40;
-        const chartWidth = canvas.width - padding * 2;
-        const chartHeight = canvas.height - padding * 2;
-        
-        // Рисуем линию графика
-        ctx.beginPath();
-        ctx.strokeStyle = '#2962ff';
-        ctx.lineWidth = 2;
-        
-        this.priceHistory.forEach((point, index) => {
-            const x = padding + (index / (this.priceHistory.length - 1)) * chartWidth;
-            const y = canvas.height - padding - ((point.price - minPrice) / priceRange) * chartHeight;
-            
-            if (index === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
         });
-        
-        ctx.stroke();
-        
-        // Рисуем последнюю точку
-        const lastPoint = this.priceHistory[this.priceHistory.length - 1];
-        const lastX = padding + chartWidth;
-        const lastY = canvas.height - padding - ((lastPoint.price - minPrice) / priceRange) * chartHeight;
-        
-        ctx.beginPath();
-        ctx.arc(lastX, lastY, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = '#2962ff';
-        ctx.fill();
-        
-        // Подписи
-        ctx.fillStyle = '#888';
-        ctx.font = '12px Arial';
-        ctx.textAlign = 'center';
-        
-        // Min цена
-        ctx.fillText('$' + minPrice.toFixed(0), padding - 20, canvas.height - padding + 5);
-        // Max цена
-        ctx.fillText('$' + maxPrice.toFixed(0), padding - 20, padding - 5);
-    }
 
-    updatePrice() {
-        // Случайное изменение цены
-        const change = (Math.random() - 0.5) * 0.01; // ±0.5%
-        this.currentPrice = this.currentPrice * (1 + change);
-        
-        // Добавляем новую точку в историю
-        this.priceHistory.push({
-            time: this.priceHistory.length,
-            price: this.currentPrice
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section, { attributes: true });
         });
-        
-        // Удаляем старые точки
-        if (this.priceHistory.length > 50) {
-            this.priceHistory.shift();
-        }
-        
-        this.drawChart();
-        this.updatePriceDisplay();
     }
 
-    updatePriceDisplay() {
-        const priceElement = document.getElementById('current-price');
-        const changeElement = document.querySelector('.price-change');
-        
-        const previousPrice = this.priceHistory.length > 1 ? 
-            this.priceHistory[this.priceHistory.length - 2].price : this.currentPrice;
-        const change = ((this.currentPrice - previousPrice) / previousPrice) * 100;
-        
-        priceElement.textContent = '$' + this.currentPrice.toFixed(2);
-        changeElement.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
-        changeElement.className = 'price-change ' + (change >= 0 ? 'positive' : 'negative');
-    }
-
-    executeTrade(type) {
-        const amount = parseFloat(document.getElementById('trade-amount').value);
-        const asset = document.getElementById('asset-select').value;
-        
-        if (isNaN(amount) || amount <= 0) {
-            alert('Введите корректную сумму');
-            return;
-        }
-        
-        if (type === 'buy') {
-            if (amount > this.balance) {
-                alert('Недостаточно средств');
-                return;
-            }
-            
-            const assetAmount = amount / this.currentPrice;
-            this.portfolio[asset] += assetAmount;
-            this.balance -= amount;
-            
-            this.showAIMessage(`✅ Успешная покупка! 
-Куплено: ${assetAmount.toFixed(6)} ${asset}
-Сумма: $${amount.toFixed(2)}
-Цена: $${this.currentPrice.toFixed(2)}`);
-            
-        } else if (type === 'sell') {
-            const assetAmount = amount / this.currentPrice;
-            
-            if (assetAmount > this.portfolio[asset]) {
-                alert('Недостаточно активов');
-                return;
-            }
-            
-            this.portfolio[asset] -= assetAmount;
-            this.balance += amount;
-            
-            this.showAIMessage(`✅ Успешная продажа!
-Продано: ${assetAmount.toFixed(6)} ${asset}
-Сумма: $${amount.toFixed(2)}
-Цена: $${this.currentPrice.toFixed(2)}`);
-        }
-        
-        this.updateUI();
-    }
-
-    processAIMessage() {
-        if (this.isAITyping) return;
-        
-        const input = document.getElementById('ai-input');
-        const message = input.value.trim();
-        
-        if (!message) return;
-        
-        // Показываем сообщение пользователя
-        this.showAIMessage(`Вы: ${message}`);
-        input.value = '';
-        
-        // Имитация задержки AI
-        this.isAITyping = true;
+    showWelcomeMessage() {
         setTimeout(() => {
-            const response = this.generateAIResponse(message);
-            this.showAIMessage(response);
-            this.isAITyping = false;
+            this.addAIMessage("Добро пожаловать в TradeLearn! 🎉 Я ваш ИИ-помощник, который проведет вас через все этапы обучения трейдингу. Давайте начнем!");
         }, 1000);
     }
 
-    generateAIResponse(message) {
-        const lowerMessage = message.toLowerCase();
-        
-        if (lowerMessage.includes('привет') || lowerMessage.includes('здравств')) {
-            return "🤖 AI: Привет! Рад вас видеть! Я помогу вам освоить трейдинг. Задавайте вопросы!";
+    handleQuickAction(action) {
+        switch(action) {
+            case 'explain-chart':
+                this.explainChart();
+                break;
+            case 'explain-trading':
+                this.explainTrading();
+                break;
+            case 'explain-portfolio':
+                this.explainPortfolio();
+                break;
+            case 'analyze-current':
+                this.analyzeCurrentChart();
+                break;
         }
-        
-        if (lowerMessage.includes('анализ') || lowerMessage.includes('график')) {
-            const change = ((this.currentPrice - this.priceHistory[0].price) / this.priceHistory[0].price) * 100;
-            return `🤖 AI: Анализ графика:
-Текущая цена: $${this.currentPrice.toFixed(2)}
-Изменение: ${change >= 0 ? '+' : ''}${change.toFixed(2)}%
-${change > 0 ? '📈 Восходящий тренд' : '📉 Нисходящий тренд'}`;
-        }
-        
-        if (lowerMessage.includes('купить') || lowerMessage.includes('продать')) {
-            return "🤖 AI: Советы по торговле:\n• Начинайте с малых сумм\n• Анализируйте график\n• Используйте стоп-лосс\n• Управляйте рисками";
-        }
-        
-        if (lowerMessage.includes('риск')) {
-            return "🤖 AI: Управление рисками - это важно!\n• Рискуйте не более 2% от депозита\n• Всегда ставьте стоп-лосс\n• Диверсифицируйте портфель";
-        }
-        
-        return "🤖 AI: Я могу помочь с:\n• Анализом графика\n• Советами по торговле\n• Управлением рисками\n• Обучением основам";
     }
 
-    handleAIAction(action) {
-        const actions = {
-            'analyze': () => {
-                const change = ((this.currentPrice - this.priceHistory[0].price) / this.priceHistory[0].price) * 100;
-                this.showAIMessage(`🤖 AI: Анализ графика:
-📊 Текущая цена: $${this.currentPrice.toFixed(2)}
-📈 Изменение: ${change >= 0 ? '+' : ''}${change.toFixed(2)}%
-${change > 2 ? '🎯 Сильный восходящий тренд' : change < -2 ? '🎯 Сильный нисходящий тренд' : '➡️ Боковой тренд'}`);
-            },
-            'learn': () => {
-                this.showAIMessage(`🤖 AI: Основы трейдинга:
-1️⃣ Изучите графики и свечи
-2️⃣ Начните с демо-счета
-3️⃣ Освойте технический анализ
-4️⃣ Управляйте рисками
-5️⃣ Торгуйте по плану`);
-            },
-            'risks': () => {
-                this.showAIMessage(`🤖 AI: Управление рисками:
-🛡️ Правило 2% - не рискуйте более 2% депозита
-🎯 Стоп-лосс - всегда ограничивайте убытки
-📊 Диверсификация - не кладите все яйца в одну корзину
-💪 Дисциплина - следуйте торговому плану`);
-            }
+    explainChart() {
+        this.addAIMessage(aiTeacher.explanations.chart);
+        this.showTutorialStep(1);
+    }
+
+    explainTrading() {
+        this.addAIMessage(aiTeacher.explanations.trading);
+        this.showTutorialStep(2);
+    }
+
+    explainPortfolio() {
+        this.addAIMessage(aiTeacher.explanations.portfolio);
+        this.showTutorialStep(3);
+    }
+
+    analyzeCurrentChart() {
+        if (window.currentData && window.currentData.length > 1) {
+            const currentPrice = window.currentData[window.currentData.length - 1].close;
+            const prevPrice = window.currentData[window.currentData.length - 2].close;
+            const change = ((currentPrice - prevPrice) / prevPrice) * 100;
+            
+            this.addAIMessage(aiTeacher.explanations.analyze(currentPrice, change));
+        } else {
+            this.addAIMessage("Сначала загрузите график для анализа! 📊");
+        }
+    }
+
+    showTutorialStep(step) {
+        // Обновляем визуальное отображение шагов
+        document.querySelectorAll('.tutorial-step').forEach(stepEl => {
+            stepEl.classList.remove('active');
+        });
+        
+        const currentStepEl = document.querySelector(`[data-step="${step}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.add('active');
+        }
+
+        this.currentStep = step;
+        
+        // Показываем сообщение для шага
+        const stepMessages = {
+            1: "Отлично! Давайте изучим график. Обратите внимание на японские свечи - они показывают движение цены за выбранный период.",
+            2: "Прекрасно! Теперь давайте разберемся с торговлей. Помните - начинайте с малых сумм!",
+            3: "Замечательно! Теперь вы знаете как следить за своими инвестициями. Не забывайте диверсифицировать портфель!"
         };
-        
-        if (actions[action]) {
-            actions[action]();
+
+        if (stepMessages[step]) {
+            this.addAIMessage(stepMessages[step]);
         }
     }
 
-    showAIMessage(message) {
-        const messageElement = document.getElementById('ai-message');
-        messageElement.textContent = message;
+    showSectionIntroduction(sectionId) {
+        const introductions = {
+            'teacher-section': "Здесь я буду вашим проводником в мире трейдинга! Задавайте любые вопросы! 🎓",
+            'trading-section': "Время практики! Совершите свою первую сделку. Не волнуйтесь - это демо-режим! ⚡",
+            'portfolio-section': "Здесь вы видите все ваши активы. Следите за изменениями стоимости! 💼",
+            'chart-section': "Изучайте графики, находите паттерны, принимайте взвешенные решения! 📊"
+        };
+
+        if (introductions[sectionId]) {
+            this.addAIMessage(introductions[sectionId]);
+        }
     }
 
-    updateUI() {
-        document.getElementById('balance').textContent = this.balance.toFixed(2) + ' USDT';
-        document.getElementById('btc-amount').textContent = this.portfolio.BTC.toFixed(6);
-        document.getElementById('eth-amount').textContent = this.portfolio.ETH.toFixed(6);
+    processUserMessage() {
+        if (this.isTyping) return;
+
+        const input = document.getElementById('ai-chat-input');
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        // Показываем сообщение пользователя
+        this.addUserMessage(message);
+        input.value = '';
+
+        // Имитация задержки ответа ИИ
+        this.isTyping = true;
+        setTimeout(() => {
+            const response = aiTeacher.getAnswer(message);
+            this.addAIMessage(response);
+            this.isTyping = false;
+        }, 1000 + Math.random() * 1000);
+    }
+
+    addAIMessage(message) {
+        const chatContainer = document.getElementById('ai-chat-messages');
+        const messageElement = this.createMessageElement(message, 'bot');
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Также обновляем основное сообщение учителя
+        document.getElementById('teacher-message').innerHTML = message.replace(/\n/g, '<br>');
+    }
+
+    addUserMessage(message) {
+        const chatContainer = document.getElementById('ai-chat-messages');
+        const messageElement = this.createMessageElement(message, 'user');
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    createMessageElement(message, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `ai-message ai-message-${type}`;
+        
+        if (type === 'bot') {
+            messageDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">${message.replace(/\n/g, '<br>')}</div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="message-content" style="margin-left: auto; background: var(--primary); color: white;">${message}</div>
+                <div class="message-avatar">👤</div>
+            `;
+        }
+        
+        return messageDiv;
+    }
+
+    showContextHelp() {
+        const currentSection = document.querySelector('.content-section.active');
+        if (currentSection) {
+            const sectionId = currentSection.id;
+            this.showSectionIntroduction(sectionId);
+        }
     }
 }
 
-// Запуск приложения
+// Интеграция с существующим кодом
+// В функции initializeApp() добавьте:
+function initializeAITeacher() {
+    window.aiTeacher = new AITeacher();
+}
+
+// В setupEventListeners() добавьте вызов:
+// initializeAITeacher();
+
+// Также обновите функцию executeTrade() чтобы ИИ комментировал сделки:
+function executeTrade(type) {
+    // ... ваш существующий код ...
+    
+    // После успешной сделки добавляем комментарий ИИ
+    setTimeout(() => {
+        const messages = {
+            'buy': [
+                "Отличная покупка! 🎯 Теперь следите за графиком чтобы вовремя зафиксировать прибыль!",
+                "Поздравляю с покупкой! 📈 Помните про стоп-лосс для защиты от неожиданных движений!",
+                "Удачная сделка! 💪 Не забывайте контролировать риски!"
+            ],
+            'sell': [
+                "Хорошая продажа! 🎯 Теперь можно ждать более выгодной цены для повторной покупки!",
+                "Отличное решение! 📉 Фиксация прибыли - важный навык успешного трейдера!",
+                "Умная сделка! 💰 Вы грамотно управляете своими инвестициями!"
+            ]
+        };
+        
+        const randomMessage = messages[type][Math.floor(Math.random() * messages[type].length)];
+        if (window.aiTeacher) {
+            window.aiTeacher.addAIMessage(randomMessage);
+        }
+    }, 500);
+}
+
+// Инициализируем ИИ-учителя когда DOM загружен
 document.addEventListener('DOMContentLoaded', function() {
-    new TradeLearn();
+    // ... ваш существующий код ...
+    
+    // Добавляем инициализацию ИИ
+    setTimeout(() => {
+        initializeAITeacher();
+    }, 2000);
 });
