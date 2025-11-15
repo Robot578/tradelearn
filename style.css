@@ -1,333 +1,306 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Добавляем в конец вашего CSS */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0f0f0f;
-    color: #ffffff;
-    line-height: 1.6;
-}
-
-.app {
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* Хедер */
-.header {
+/* Стили для ИИ-учителя */
+.ai-teacher-welcome {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background: #1a1a1a;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #333;
-}
-
-.header-left h1 {
-    font-size: 2rem;
-    margin-bottom: 5px;
-}
-
-.header-left p {
-    color: #888;
-}
-
-.price-display {
-    text-align: right;
-}
-
-#current-price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: block;
-}
-
-.price-change {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
-
-.price-change.positive {
-    background: rgba(0, 200, 83, 0.2);
-    color: #00c853;
-}
-
-.price-change.negative {
-    background: rgba(255, 68, 68, 0.2);
-    color: #ff4444;
-}
-
-/* Основной контент */
-.main-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-}
-
-/* График */
-.chart-section {
-    grid-column: 1;
-    grid-row: 1;
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid #333;
-}
-
-.chart-container {
-    height: 400px;
-    background: #000;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    position: relative;
-}
-
-#priceChart {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-}
-
-.chart-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#asset-select {
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    padding: 8px 15px;
-    border-radius: 8px;
-}
-
-.timeframes {
-    display: flex;
-    gap: 10px;
-}
-
-.timeframe {
-    background: #333;
-    color: #888;
-    border: 1px solid #555;
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.timeframe.active {
-    background: #2962ff;
-    color: white;
-    border-color: #2962ff;
-}
-
-/* Торговля */
-.trading-section {
-    grid-column: 2;
-    grid-row: 1;
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid #333;
-}
-
-.trading-section h3 {
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-}
-
-.trade-panel {
-    display: flex;
-    flex-direction: column;
     gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 20px;
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.ai-avatar {
+    font-size: 3rem;
 }
 
-.input-group label {
-    color: #888;
+.ai-intro h4 {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.ai-intro p {
+    opacity: 0.9;
     font-size: 0.9rem;
 }
 
-.input-group input {
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 1rem;
-}
-
-.trade-buttons {
+/* Быстрые действия ИИ */
+.ai-quick-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    margin: 20px 0;
 }
 
-.btn {
+.ai-action-btn {
+    background: var(--surface-light);
+    border: 1px solid var(--divider);
     padding: 15px;
-    border: none;
     border-radius: 10px;
-    font-weight: bold;
-    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s;
-}
-
-.buy-btn {
-    background: #00c853;
-    color: white;
-}
-
-.buy-btn:hover {
-    background: #00b248;
-}
-
-.sell-btn {
-    background: #ff4444;
-    color: white;
-}
-
-.sell-btn:hover {
-    background: #cc0000;
-}
-
-/* AI Учитель */
-.ai-section {
-    grid-column: 1;
-    grid-row: 2;
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid #333;
-}
-
-.ai-section h3 {
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-}
-
-.ai-chat {
+    transition: all 0.3s ease;
+    text-align: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-action-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.ai-icon {
+    font-size: 1.5rem;
+}
+
+/* Шаги обучения */
+.ai-tutorial-steps {
+    background: var(--surface-light);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.ai-tutorial-steps h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.tutorial-step {
+    display: flex;
+    align-items: center;
     gap: 15px;
+    padding: 15px;
+    background: var(--surface);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.tutorial-step:hover {
+    background: var(--surface-light);
+}
+
+.tutorial-step.active {
+    border-left-color: var(--primary);
+    background: rgba(41, 98, 255, 0.1);
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.step-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Чат с ИИ */
+.ai-chat-container {
+    margin-top: 20px;
+}
+
+.ai-chat-messages {
+    height: 200px;
+    overflow-y: auto;
+    background: var(--surface-light);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid var(--divider);
 }
 
 .ai-message {
-    background: #2a2a2a;
-    padding: 20px;
-    border-radius: 10px;
-    min-height: 100px;
-    border-left: 4px solid #2962ff;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.ai-input {
+.ai-message-bot .message-avatar {
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.message-content {
+    background: var(--surface);
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 80%;
+    line-height: 1.4;
+}
+
+.ai-chat-input {
     display: flex;
     gap: 10px;
 }
 
-#ai-input {
+#ai-chat-input {
     flex: 1;
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    padding: 12px;
-    border-radius: 8px;
+    background: var(--surface-light);
+    border: 1px solid var(--divider);
+    padding: 12px 15px;
+    border-radius: 25px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
 }
 
-#ai-send {
-    background: #2962ff;
+#ai-chat-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+#send-ai-message {
+    background: var(--primary);
     color: white;
     border: none;
     padding: 0 20px;
-    border-radius: 8px;
+    border-radius: 25px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.ai-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
+#send-ai-message:hover {
+    background: var(--primary-dark);
 }
 
-.ai-btn {
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.ai-btn:hover {
-    background: #444;
-    border-color: #2962ff;
-}
-
-/* Портфель */
-.portfolio-section {
-    grid-column: 2;
-    grid-row: 2;
-    background: #1a1a1a;
+/* Советы по торговле */
+.ai-trading-tips {
+    background: var(--surface-light);
     padding: 20px;
-    border-radius: 15px;
-    border: 1px solid #333;
+    border-radius: 12px;
+    margin-top: 20px;
 }
 
-.portfolio-section h3 {
-    margin-bottom: 20px;
-    font-size: 1.3rem;
+.ai-trading-tips h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
 }
 
-.portfolio {
+.ai-tip {
+    background: var(--surface);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--success);
+}
+
+/* Объяснение портфеля */
+.ai-portfolio-explanation {
+    background: var(--surface-light);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.ai-portfolio-explanation h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.ai-portfolio-explanation ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.ai-portfolio-explanation li {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+/* Всплывающий ИИ-помощник */
+.ai-helper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.ai-helper-content {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.portfolio-item {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background: #2a2a2a;
-    border-radius: 10px;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 15px 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(41, 98, 255, 0.3);
+    animation: float 3s ease-in-out infinite;
 }
 
-/* Адаптивность */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+.ai-helper-avatar {
+    font-size: 1.5rem;
+}
+
+.ai-helper-message {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Анимации для ИИ */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ai-message {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Адаптивность для ИИ */
 @media (max-width: 768px) {
-    .main-content {
+    .ai-quick-actions {
         grid-template-columns: 1fr;
     }
     
-    .chart-section,
-    .trading-section,
-    .ai-section,
-    .portfolio-section {
-        grid-column: 1;
+    .ai-helper-content {
+        padding: 12px 15px;
     }
     
-    .trading-section {
-        grid-row: 2;
-    }
-    
-    .ai-section {
-        grid-row: 3;
-    }
-    
-    .portfolio-section {
-        grid-row: 4;
+    .ai-helper-message {
+        font-size: 0.8rem;
     }
 }
