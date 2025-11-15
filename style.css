@@ -52,8 +52,7 @@ body {
 
 .sidebar.collapsed .sidebar-header h2,
 .sidebar.collapsed .nav-btn span,
-.sidebar.collapsed .balance-card,
-.sidebar.collapsed .connection-status {
+.sidebar.collapsed .balance-card {
     display: none;
 }
 
@@ -106,7 +105,6 @@ body {
     padding: 15px;
     border-radius: 8px;
     text-align: center;
-    margin-bottom: 10px;
 }
 
 .balance-amount {
@@ -115,31 +113,6 @@ body {
     font-weight: 600;
     color: var(--success);
     margin-top: 5px;
-}
-
-/* Статус подключения */
-.connection-status {
-    padding: 8px;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.8rem;
-    background-color: rgba(255, 171, 0, 0.2);
-    color: var(--warning);
-}
-
-.connection-status.connected {
-    background-color: rgba(0, 200, 83, 0.2);
-    color: var(--success);
-}
-
-.connection-status.disconnected {
-    background-color: rgba(255, 82, 82, 0.2);
-    color: var(--loss);
-}
-
-.connection-status.connecting {
-    background-color: rgba(255, 171, 0, 0.2);
-    color: var(--warning);
 }
 
 /* Основной контент */
@@ -226,20 +199,6 @@ body {
     color: var(--loss);
 }
 
-/* Статистика рынка */
-.market-stats {
-    display: flex;
-    gap: 15px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.market-stats span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
 /* Основной контент */
 .main-content {
     flex: 1;
@@ -301,28 +260,6 @@ body {
     color: var(--text-primary);
 }
 
-/* Управление графиком */
-.chart-controls {
-    display: flex;
-    gap: 10px;
-}
-
-.control-btn {
-    background-color: var(--surface-light);
-    color: var(--text-primary);
-    border: 1px solid var(--divider);
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.control-btn:hover {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
 .chart-container {
     position: relative;
     height: 400px;
@@ -371,6 +308,7 @@ body {
     gap: 15px;
     margin-top: 15px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .indicator-checkbox {
@@ -400,6 +338,15 @@ body {
     color: var(--text-primary);
     font-weight: 500;
 }
+
+/* Цвета индикаторов */
+.indicator-sma { color: #2962ff; }
+.indicator-ema { color: #ff6d00; }
+.indicator-rsi { color: #9c27b0; }
+.indicator-volume { color: #26a69a; }
+.indicator-macd { color: #ff4081; }
+.indicator-bollinger { color: #4caf50; }
+.indicator-stochastic { color: #ff9800; }
 
 /* Секции контента */
 .content-sections {
@@ -597,36 +544,6 @@ body {
     color: white;
 }
 
-/* Быстрые действия */
-.quick-actions {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid var(--divider);
-}
-
-.quick-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.quick-btn {
-    flex: 1;
-    background-color: var(--surface-light);
-    color: var(--text-primary);
-    border: 1px solid var(--divider);
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.8rem;
-}
-
-.quick-btn:hover {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
 /* Стили для ордеров */
 .order-creation {
     margin-bottom: 20px;
@@ -672,6 +589,14 @@ body {
     border-left-color: var(--success);
 }
 
+.order-item.limit {
+    border-left-color: var(--primary);
+}
+
+.order-item.trailing-stop {
+    border-left-color: var(--secondary);
+}
+
 .order-info {
     display: flex;
     flex-direction: column;
@@ -703,7 +628,7 @@ body {
     font-size: 0.8rem;
 }
 
-.empty-orders, .empty-history, .empty-signals {
+.empty-orders, .empty-history {
     text-align: center;
     color: var(--text-secondary);
     padding: 30px;
@@ -751,7 +676,6 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
-    margin-bottom: 20px;
 }
 
 .portfolio-item {
@@ -769,43 +693,11 @@ body {
     font-weight: 600;
 }
 
-.portfolio-chart {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid var(--divider);
-}
-
 /* Стили для истории */
-.history-filters {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.history-filter {
-    background-color: var(--surface-light);
-    color: var(--text-secondary);
-    border: 1px solid var(--divider);
-    padding: 6px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.history-filter.active {
-    background-color: var(--primary);
-    color: var(--text-primary);
-    border-color: var(--primary);
-}
-
 .history-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 400px;
-    overflow-y: auto;
 }
 
 .history-item {
@@ -850,198 +742,6 @@ body {
     color: var(--loss);
 }
 
-/* Анализ рынка */
-.analysis-tabs {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid var(--divider);
-    flex-wrap: wrap;
-}
-
-.analysis-tab {
-    background: none;
-    border: none;
-    padding: 10px 15px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.analysis-tab.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-}
-
-.analysis-tab:hover {
-    color: var(--text-primary);
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.trend-indicators,
-.volatility-stats,
-.support-levels,
-.sentiment-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.trend-item,
-.volatility-item,
-.level-item,
-.sentiment-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: var(--surface-light);
-    border-radius: 6px;
-}
-
-.level-item.resistance {
-    border-left: 4px solid var(--loss);
-}
-
-.level-item.support {
-    border-left: 4px solid var(--success);
-}
-
-.level-item.pivot {
-    border-left: 4px solid var(--warning);
-}
-
-/* Торговые сигналы */
-.signals-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.signal-filters {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.signal-filter {
-    background-color: var(--surface-light);
-    color: var(--text-secondary);
-    border: 1px solid var(--divider);
-    padding: 6px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.signal-filter.active {
-    background-color: var(--primary);
-    color: var(--text-primary);
-    border-color: var(--primary);
-}
-
-.signals-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.signal-item {
-    background-color: var(--surface-light);
-    padding: 12px;
-    border-radius: 8px;
-    border-left: 4px solid var(--warning);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.signal-item.buy {
-    border-left-color: var(--success);
-}
-
-.signal-item.sell {
-    border-left-color: var(--loss);
-}
-
-.signal-item.warning {
-    border-left-color: var(--warning);
-}
-
-.signal-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    flex: 1;
-}
-
-.signal-type {
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.signal-desc {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.signal-time {
-    font-size: 0.7rem;
-    color: var(--text-disabled);
-}
-
-.signal-strength {
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: 600;
-}
-
-.signal-strength.high {
-    background-color: rgba(255, 82, 82, 0.2);
-    color: var(--loss);
-}
-
-.signal-strength.medium {
-    background-color: rgba(255, 171, 0, 0.2);
-    color: var(--warning);
-}
-
-.signal-strength.low {
-    background-color: rgba(0, 200, 83, 0.2);
-    color: var(--success);
-}
-
-.signal-settings {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid var(--divider);
-}
-
-.setting-item {
-    margin-bottom: 10px;
-}
-
-.setting-item label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
 /* Стили для достижений */
 .achievements-grid {
     display: grid;
@@ -1055,6 +755,7 @@ body {
     border-radius: 8px;
     text-align: center;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .achievement-card.locked {
@@ -1082,6 +783,12 @@ body {
 .achievement-desc {
     font-size: 0.9rem;
     color: var(--text-secondary);
+}
+
+.achievement-reward {
+    font-size: 0.8rem;
+    color: var(--warning);
+    margin-top: 5px;
 }
 
 /* Стили для статистики */
@@ -1112,34 +819,11 @@ body {
     color: var(--text-secondary);
 }
 
-.stats-charts {
-    margin: 20px 0;
-}
-
 /* Стили для данных */
 .data-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 10px;
-    margin-bottom: 20px;
-}
-
-.data-info {
-    background-color: var(--surface-light);
-    padding: 15px;
-    border-radius: 8px;
-}
-
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--divider);
-}
-
-.info-item:last-child {
-    border-bottom: none;
 }
 
 /* Всплывающая подсказка для графика */
@@ -1177,76 +861,19 @@ body {
     font-weight: 600;
 }
 
-/* Уведомления */
-.notification-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 10000;
+/* Стили для учителя */
+.teacher-questions {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
+}
+
+.question-input {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 300px;
 }
 
-.notification {
-    background-color: var(--surface);
-    border-left: 4px solid var(--primary);
-    padding: 12px 15px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.3s ease;
-}
-
-.notification.success {
-    border-left-color: var(--success);
-}
-
-.notification.error {
-    border-left-color: var(--loss);
-}
-
-.notification.warning {
-    border-left-color: var(--warning);
-}
-
-.notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.notification-title {
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.notification-close {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.notification-message {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-/* Уроки */
 .teacher-lessons {
     background-color: var(--surface-light);
     padding: 15px;
@@ -1306,6 +933,340 @@ body {
     color: var(--text-secondary);
 }
 
+/* Анимация обновления цены */
+@keyframes priceUpdate {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0, 200, 83, 0.2); }
+    100% { background-color: transparent; }
+}
+
+.price-update {
+    animation: priceUpdate 1s ease-in-out;
+}
+
+/* Новые стили для улучшений */
+.leverage-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.leverage-slider {
+    flex: 1;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.stat-card h4 {
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.performance-chart {
+    height: 200px;
+    background-color: var(--background);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.quests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.quest-card {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--warning);
+}
+
+.quest-card.completed {
+    border-left-color: var(--success);
+}
+
+.quest-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.quest-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.quest-progress {
+    background-color: var(--background);
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.quest-progress-bar {
+    height: 100%;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.quest-reward {
+    font-size: 0.8rem;
+    color: var(--warning);
+}
+
+.trading-fees-display {
+    background-color: var(--surface-light);
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 0.9rem;
+}
+
+.advanced-indicators {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--divider);
+}
+
+.heat-map {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.heat-map-item {
+    background-color: var(--surface-light);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.heat-map-item:hover {
+    transform: scale(1.05);
+}
+
+.heat-map-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.heat-map-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Стили для ИИ-учителя */
+.ai-teacher-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.ai-teacher-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.ai-teacher-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.ai-teacher-content {
+    background: var(--surface);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--divider);
+}
+
+.ai-teacher-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.ai-teacher-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.close-ai-teacher {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.close-ai-teacher:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.ai-teacher-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ai-avatar {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ai-message {
+    background: var(--surface-light);
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.6;
+    min-height: 80px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.ai-suggestions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.ai-suggestion-btn {
+    background: var(--surface-light);
+    border: 1px solid var(--divider);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.ai-suggestion-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.ai-chat-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#ai-chat-input {
+    flex: 1;
+    background: var(--surface-light);
+    border: 1px solid var(--divider);
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+#ai-chat-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+#send-ai-message {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#send-ai-message:hover {
+    background: var(--primary-dark);
+}
+
+/* Анимации для ИИ */
+@keyframes aiMessageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ai-message {
+    animation: aiMessageAppear 0.3s ease-out;
+}
+
+/* Интерактивные подсказки на графике */
+.chart-hint {
+    position: absolute;
+    background: rgba(41, 98, 255, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    z-index: 100;
+    pointer-events: none;
+    animation: pulseHint 2s infinite;
+}
+
+@keyframes pulseHint {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .app-container {
@@ -1345,17 +1306,6 @@ body {
         gap: 5px;
     }
     
-    .header-right {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .market-stats {
-        flex-direction: column;
-        gap: 5px;
-        text-align: center;
-    }
-    
     .trade-inputs {
         grid-template-columns: 1fr;
     }
@@ -1382,20 +1332,42 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .analysis-tabs {
-        flex-direction: column;
-    }
-    
-    .signal-filters {
+    .timeframe-selector {
+        flex-wrap: wrap;
         justify-content: center;
     }
     
-    .notification-container {
-        left: 10px;
-        right: 10px;
-        max-width: none;
+    .timeframe-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
     }
     
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quests-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-teacher-content {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .ai-suggestions {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-teacher-toggle {
+        bottom: 10px;
+        right: 10px;
+        padding: 12px 16px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
     .chart-header {
         flex-direction: column;
         align-items: stretch;
@@ -1414,12 +1386,6 @@ body {
         grid-template-columns: 1fr 1fr;
     }
     
-    .data-buttons {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
     .indicator-controls {
         flex-direction: column;
         align-items: flex-start;
@@ -1429,15 +1395,4 @@ body {
         width: 100%;
         justify-content: space-between;
     }
-    
-    .risk-results {
-        grid-template-columns: 1fr;
-    }
 }
-
-/* Цвета индикаторов */
-.indicator-sma { color: #2962ff; }
-.indicator-ema { color: #ff6d00; }
-.indicator-rsi { color: #9c27b0; }
-.indicator-macd { color: #00bcd4; }
-.indicator-bollinger { color: #4caf50; }
