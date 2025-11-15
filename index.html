@@ -24,8 +24,26 @@
                 <button class="nav-btn" data-section="trading">
                     <span>⚡ Торговля</span>
                 </button>
+                <button class="nav-btn" data-section="orders">
+                    <span>🎯 Ордера</span>
+                </button>
+                <button class="nav-btn" data-section="risk">
+                    <span>🧮 Риски</span>
+                </button>
                 <button class="nav-btn" data-section="portfolio">
                     <span>💼 Портфель</span>
+                </button>
+                <button class="nav-btn" data-section="history">
+                    <span>📋 История</span>
+                </button>
+                <button class="nav-btn" data-section="achievements">
+                    <span>🏆 Достижения</span>
+                </button>
+                <button class="nav-btn" data-section="stats">
+                    <span>📈 Статистика</span>
+                </button>
+                <button class="nav-btn" data-section="data">
+                    <span>💾 Данные</span>
                 </button>
             </nav>
             <div class="sidebar-footer">
@@ -54,15 +72,20 @@
 
             <div class="main-content">
                 <!-- График (всегда видим) -->
-                <div class="chart-section active" id="chart-section">
+                <div class="chart-section">
                     <div class="chart-header">
                         <select id="asset-select" class="asset-select">
                             <option value="BTCUSDT">BTC/USDT</option>
                             <option value="ETHUSDT">ETH/USDT</option>
+                            <option value="SOLUSDT">SOL/USDT</option>
                             <option value="ADAUSDT">ADA/USDT</option>
+                            <option value="DOTUSDT">DOT/USDT</option>
                         </select>
                         <div class="timeframe-selector">
-                            <button class="timeframe-btn active" data-tf="1h">1h</button>
+                            <button class="timeframe-btn active" data-tf="1m">1m</button>
+                            <button class="timeframe-btn" data-tf="5m">5m</button>
+                            <button class="timeframe-btn" data-tf="15m">15m</button>
+                            <button class="timeframe-btn" data-tf="1h">1h</button>
                             <button class="timeframe-btn" data-tf="4h">4h</button>
                             <button class="timeframe-btn" data-tf="1d">1d</button>
                         </div>
@@ -70,101 +93,163 @@
                     
                     <div class="chart-container">
                         <div id="candleChart"></div>
-                        <div class="loading-overlay" id="chartLoadingOverlay">
+                        <div class="loading-overlay" id="chartLoadingOverlay" style="display: none;">
                             <div class="loader-spinner"></div>
                             <div>Загрузка графика...</div>
                         </div>
                     </div>
+
+                    <div class="indicator-controls">
+                        <label class="indicator-checkbox">
+                            <input type="checkbox" id="sma-toggle" checked>
+                            <span class="indicator-label">SMA (20)</span>
+                        </label>
+                        <label class="indicator-checkbox">
+                            <input type="checkbox" id="ema-toggle">
+                            <span class="indicator-label">EMA (12)</span>
+                        </label>
+                        <label class="indicator-checkbox">
+                            <input type="checkbox" id="rsi-toggle">
+                            <span class="indicator-label">RSI (14)</span>
+                        </label>
+                        <label class="indicator-checkbox">
+                            <input type="checkbox" id="volume-toggle" checked>
+                            <span class="indicator-label">Volume</span>
+                        </label>
+                        <label class="indicator-checkbox">
+                            <input type="checkbox" id="macd-toggle">
+                            <span class="indicator-label">MACD</span>
+                        </label>
+                        <label class="indicator-checkbox">
+                            <input type="checkbox" id="bollinger-toggle">
+                            <span class="indicator-label">Bollinger Bands</span>
+                        </label>
+                    </div>
+
+                    <!-- Информация о торговле -->
+                    <div class="trading-fees-display">
+                        <div>Bid: <span id="bid-price">0.00</span> | Ask: <span id="ask-price">0.00</span></div>
+                        <div>Комиссия: <span id="trading-fee">0.0000 USDT</span> (0.1%)</div>
+                    </div>
+
+                    <!-- Кредитное плечо -->
+                    <div class="leverage-control">
+                        <label>Кредитное плечо:</label>
+                        <input type="range" id="leverage-slider" min="1" max="10" value="1" class="leverage-slider">
+                        <span id="leverage-value">1x</span>
+                    </div>
                 </div>
 
-                <!-- Контент секций -->
+                <!-- Контент секций (скрыт по умолчанию) -->
                 <div class="content-sections">
                     <!-- Учитель -->
-                    <div class="content-section" id="teacher-section">
+                    <div class="content-section" id="teacher-section" style="display: none;">
                         <div class="section-header">
-                            <h3>🎓 ИИ-Учитель TradeLearn</h3>
+                            <h3>🎓 Учитель по трейдингу</h3>
                             <button class="close-section">✕</button>
                         </div>
                         <div class="teacher-content">
-                            <!-- ИИ Аватар и приветствие -->
-                            <div class="ai-teacher-welcome">
-                                <div class="ai-avatar">🤖</div>
-                                <div class="ai-intro">
-                                    <h4>Привет! Я ваш ИИ-помощник!</h4>
-                                    <p>Я научу вас торговать и помогу разобраться с платформой</p>
-                                </div>
-                            </div>
-                            
                             <div class="teacher-message" id="teacher-message">
-                                Добро пожаловать в TradeLearn! 🎉 Давайте начнем обучение. Что вас интересует?
+                                Добро пожаловать! Я помогу вам освоить основы трейдинга. Что вас интересует?
                             </div>
                             
-                            <!-- Быстрые действия -->
-                            <div class="ai-quick-actions">
-                                <button class="ai-action-btn" data-action="explain-chart">
-                                    <span class="ai-icon">📊</span>
-                                    <span>Что это за график?</span>
-                                </button>
-                                <button class="ai-action-btn" data-action="explain-trading">
-                                    <span class="ai-icon">⚡</span>
-                                    <span>Как торговать?</span>
-                                </button>
-                                <button class="ai-action-btn" data-action="explain-portfolio">
-                                    <span class="ai-icon">💼</span>
-                                    <span>Что такое портфель?</span>
-                                </button>
-                                <button class="ai-action-btn" data-action="analyze-current">
-                                    <span class="ai-icon">🔍</span>
-                                    <span>Проанализируй график</span>
-                                </button>
+                            <div class="teacher-controls">
+                                <button id="teacher-hint" class="teacher-action-btn">💡 Подсказка</button>
+                                <button id="teacher-analysis" class="teacher-action-btn">📊 Анализ</button>
+                                <button id="teacher-lesson" class="teacher-action-btn">📚 Урок</button>
+                                <button id="teacher-dictionary-btn" class="teacher-action-btn">📖 Словарь</button>
                             </div>
-
-                            <!-- Обучение шаг за шагом -->
-                            <div class="ai-tutorial-steps">
-                                <h4>🎯 Пройдите обучение:</h4>
-                                <div class="tutorial-step active" data-step="1">
-                                    <div class="step-number">1</div>
-                                    <div class="step-content">
-                                        <div class="step-title">Изучите график</div>
-                                        <div class="step-description">Поймите как читать свечи и тренды</div>
-                                    </div>
+                            
+                            <div class="teacher-questions">
+                                <h4>💬 Задайте вопрос:</h4>
+                                <div class="question-input">
+                                    <input type="text" id="teacher-question" class="trade-input" placeholder="Введите ваш вопрос о трейдинге..." style="width: 100%;">
+                                    <button id="ask-question" class="teacher-action-btn" style="margin-top: 10px;">Спросить</button>
                                 </div>
-                                <div class="tutorial-step" data-step="2">
-                                    <div class="step-number">2</div>
-                                    <div class="step-content">
-                                        <div class="step-title">Совершите сделку</div>
-                                        <div class="step-description">Купите или продайте актив</div>
+                            </div>
+                            
+                            <div class="teacher-lessons" id="teacher-lessons" style="display: none; margin-top: 15px;">
+                                <h4>📚 Доступные уроки:</h4>
+                                <div class="lessons-grid">
+                                    <div class="lesson-card" data-lesson="basics">
+                                        <span class="lesson-title">📖 Основы трейдинга</span>
+                                        <span class="lesson-desc">Базовые понятия и термины</span>
                                     </div>
-                                </div>
-                                <div class="tutorial-step" data-step="3">
-                                    <div class="step-number">3</div>
-                                    <div class="step-content">
-                                        <div class="step-title">Следите за портфелем</div>
-                                        <div class="step-description">Контролируйте свои инвестиции</div>
+                                    <div class="lesson-card" data-lesson="candles">
+                                        <span class="lesson-title">🕯️ Свечной анализ</span>
+                                        <span class="lesson-desc">Чтение японских свечей</span>
+                                    </div>
+                                    <div class="lesson-card" data-lesson="indicators">
+                                        <span class="lesson-title">📊 Индикаторы</span>
+                                        <span class="lesson-desc">SMA, EMA, RSI и другие</span>
+                                    </div>
+                                    <div class="lesson-card" data-lesson="risk">
+                                        <span class="lesson-title">🛡️ Управление рисками</span>
+                                        <span class="lesson-desc">Стоп-лосс и мани-менеджмент</span>
+                                    </div>
+                                    <div class="lesson-card" data-lesson="strategies">
+                                        <span class="lesson-title">🎯 Торговые стратегии</span>
+                                        <span class="lesson-desc">Скальпинг, свинг-трейдинг</span>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Чат с ИИ -->
-                            <div class="ai-chat-container">
-                                <div class="ai-chat-messages" id="ai-chat-messages">
-                                    <div class="ai-message ai-message-bot">
-                                        <div class="message-avatar">🤖</div>
-                                        <div class="message-content">
-                                            Задайте любой вопрос о трейдинге!
-                                        </div>
+                            
+                            <div class="teacher-dictionary" id="teacher-dictionary" style="display: none; margin-top: 15px;">
+                                <h4>📚 Словарь терминов</h4>
+                                <div class="dictionary-grid">
+                                    <div class="dictionary-term" data-term="sma">
+                                        <span class="term-name">SMA</span>
+                                        <span class="term-desc">Простая скользящая средняя</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="ema">
+                                        <span class="term-name">EMA</span>
+                                        <span class="term-desc">Экспоненциальная скользящая средняя</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="rsi">
+                                        <span class="term-name">RSI</span>
+                                        <span class="term-desc">Индекс относительной силы</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="stoploss">
+                                        <span class="term-name">Stop-Loss</span>
+                                        <span class="term-desc">Ордер для ограничения убытков</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="takeprofit">
+                                        <span class="term-name">Take-Profit</span>
+                                        <span class="term-desc">Ордер для фиксации прибыли</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="leverage">
+                                        <span class="term-name">Кредитное плечо</span>
+                                        <span class="term-desc">Торговля с заемными средствами</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="bullmarket">
+                                        <span class="term-name">Бычий рынок</span>
+                                        <span class="term-desc">Рост цен, оптимизм</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="bearmarket">
+                                        <span class="term-name">Медвежий рынок</span>
+                                        <span class="term-desc">Падение цен, пессимизм</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="macd">
+                                        <span class="term-name">MACD</span>
+                                        <span class="term-desc">Схождение/расхождение средних</span>
+                                    </div>
+                                    <div class="dictionary-term" data-term="bollinger">
+                                        <span class="term-name">Bollinger Bands</span>
+                                        <span class="term-desc">Полосы Боллинджера</span>
                                     </div>
                                 </div>
-                                <div class="ai-chat-input">
-                                    <input type="text" id="ai-chat-input" placeholder="Спросите о трейдинге...">
-                                    <button id="send-ai-message">➤</button>
-                                </div>
+                            </div>
+
+                            <div class="term-details" id="term-details" style="display: none; margin-top: 15px;">
+                                <h4 id="term-title">Название термина</h4>
+                                <p id="term-description">Описание термина...</p>
+                                <button id="close-term" class="teacher-action-btn" style="margin-top: 10px;">Закрыть</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Торговля -->
-                    <div class="content-section" id="trading-section">
+                    <div class="content-section" id="trading-section" style="display: none;">
                         <div class="section-header">
                             <h3>⚡ Торговля</h3>
                             <button class="close-section">✕</button>
@@ -183,26 +268,89 @@
                                     <span>Продать</span>
                                     <small>SHORT</small>
                                 </button>
+                                <button id="buy-max-btn" class="trade-btn buy-btn" style="grid-column: span 2;">
+                                    <span>Купить MAX</span>
+                                </button>
                             </div>
                         </div>
-                        
-                        <!-- Подсказки от ИИ -->
-                        <div class="ai-trading-tips">
-                            <h4>💡 Советы от ИИ-учителя:</h4>
-                            <div class="ai-tip">
-                                <strong>Начинайте с малого:</strong> Рискуйте не более 2% от депозита
+                    </div>
+
+                    <!-- Ордера -->
+                    <div class="content-section" id="orders-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>🎯 Ордера</h3>
+                            <button class="close-section">✕</button>
+                        </div>
+                        <div class="order-creation">
+                            <h4>Создать ордер</h4>
+                            <div class="order-inputs">
+                                <div class="input-group">
+                                    <label>Тип ордера:</label>
+                                    <select id="order-type" class="trade-input">
+                                        <option value="STOP">Стоп-лосс</option>
+                                        <option value="TAKE_PROFIT">Тейк-профит</option>
+                                        <option value="LIMIT">Лимитный</option>
+                                        <option value="TRAILING_STOP">Трейлинг-стоп</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Цена срабатывания:</label>
+                                    <input type="number" id="order-price" class="trade-input" placeholder="Цена">
+                                </div>
+                                <div class="input-group">
+                                    <label>Объем:</label>
+                                    <input type="number" id="order-amount" class="trade-input" placeholder="Объем">
+                                </div>
+                                <button id="create-order-btn" class="trade-btn">Создать ордер</button>
                             </div>
-                            <div class="ai-tip">
-                                <strong>Анализируйте:</strong> Изучите график перед сделкой
+                        </div>
+                        <div class="active-orders">
+                            <h4>Активные ордера</h4>
+                            <div class="orders-list" id="orders-container">
+                                <div class="empty-orders">Активных ордеров нет</div>
                             </div>
-                            <div class="ai-tip">
-                                <strong>План на выход:</strong> Знайте когда зафиксировать прибыль или убыток
+                        </div>
+                    </div>
+
+                    <!-- Риски -->
+                    <div class="content-section" id="risk-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>🧮 Калькулятор риска</h3>
+                            <button class="close-section">✕</button>
+                        </div>
+                        <div class="risk-inputs">
+                            <div class="input-group">
+                                <label>Депозит (USDT):</label>
+                                <input type="number" id="risk-deposit" class="trade-input" value="100">
+                            </div>
+                            <div class="input-group">
+                                <label>Риск (%):</label>
+                                <input type="number" id="risk-percent" class="trade-input" value="2" min="0.1" max="10" step="0.1">
+                            </div>
+                            <div class="input-group">
+                                <label>Цена входа:</label>
+                                <input type="number" id="risk-entry" class="trade-input" placeholder="0.00">
+                            </div>
+                            <div class="input-group">
+                                <label>Стоп-лосс:</label>
+                                <input type="number" id="risk-stop" class="trade-input" placeholder="0.00">
+                            </div>
+                            <button id="calculate-risk" class="trade-btn">Рассчитать</button>
+                            <div class="risk-results">
+                                <div class="risk-result">
+                                    <span>Объем:</span>
+                                    <span id="risk-volume">0.00</span>
+                                </div>
+                                <div class="risk-result">
+                                    <span>Риск:</span>
+                                    <span id="risk-amount">0.00 USDT</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Портфель -->
-                    <div class="content-section" id="portfolio-section">
+                    <div class="content-section" id="portfolio-section" style="display: none;">
                         <div class="section-header">
                             <h3>💼 Портфель</h3>
                             <button class="close-section">✕</button>
@@ -217,42 +365,209 @@
                                 <span id="eth-amount">0.000000</span>
                             </div>
                             <div class="portfolio-item">
+                                <span>SOL:</span>
+                                <span id="sol-amount">0.000000</span>
+                            </div>
+                            <div class="portfolio-item">
                                 <span>ADA:</span>
                                 <span id="ada-amount">0.000000</span>
+                            </div>
+                            <div class="portfolio-item">
+                                <span>DOT:</span>
+                                <span id="dot-amount">0.000000</span>
                             </div>
                             <div class="portfolio-item total">
                                 <span>Общая стоимость:</span>
                                 <span id="total-value">100.00 USDT</span>
                             </div>
                         </div>
-                        
-                        <!-- Объяснение от ИИ -->
-                        <div class="ai-portfolio-explanation">
-                            <h4>📚 Объяснение от ИИ:</h4>
-                            <p>Ваш портфель - это совокупность всех ваших активов. Здесь вы видите:</p>
-                            <ul>
-                                <li><strong>Баланс USDT</strong> - ваши доступные средства</li>
-                                <li><strong>Криптовалюты</strong> - купленные вами активы</li>
-                                <li><strong>Общая стоимость</strong> - суммарная стоимость всех активов</li>
-                            </ul>
-                            <p>💡 <strong>Совет:</strong> Диверсифицируйте портфель для снижения рисков!</p>
+
+                        <!-- Heat Map портфеля -->
+                        <div class="heat-map">
+                            <div class="heat-map-item">
+                                <div class="heat-map-value" id="btc-percent">0%</div>
+                                <div class="heat-map-label">BTC</div>
+                            </div>
+                            <div class="heat-map-item">
+                                <div class="heat-map-value" id="eth-percent">0%</div>
+                                <div class="heat-map-label">ETH</div>
+                            </div>
+                            <div class="heat-map-item">
+                                <div class="heat-map-value" id="sol-percent">0%</div>
+                                <div class="heat-map-label">SOL</div>
+                            </div>
+                            <div class="heat-map-item">
+                                <div class="heat-map-value" id="ada-percent">0%</div>
+                                <div class="heat-map-label">ADA</div>
+                            </div>
+                            <div class="heat-map-item">
+                                <div class="heat-map-value" id="dot-percent">0%</div>
+                                <div class="heat-map-label">DOT</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- История -->
+                    <div class="content-section" id="history-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>📋 История сделок</h3>
+                            <button class="close-section">✕</button>
+                        </div>
+                        <div class="history-list" id="history-items">
+                            <div class="empty-history">Сделок пока нет</div>
+                        </div>
+                    </div>
+
+                    <!-- Достижения -->
+                    <div class="content-section" id="achievements-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>🏆 Достижения</h3>
+                            <button class="close-section">✕</button>
+                        </div>
+                        <div class="achievements-grid" id="achievements-container">
+                            <div class="achievement-card locked" data-achievement="firstTrade">
+                                <div class="achievement-icon">🎯</div>
+                                <div class="achievement-title">Первая сделка</div>
+                                <div class="achievement-desc">Совершите первую торговую операцию</div>
+                                <div class="achievement-reward">+5 USDT</div>
+                            </div>
+                            <div class="achievement-card locked" data-achievement="profit10">
+                                <div class="achievement-icon">💰</div>
+                                <div class="achievement-title">Профит +10%</div>
+                                <div class="achievement-desc">Достигните прибыли +10%</div>
+                                <div class="achievement-reward">+10 USDT</div>
+                            </div>
+                            <div class="achievement-card locked" data-achievement="riskManager">
+                                <div class="achievement-icon">🛡️</div>
+                                <div class="achievement-title">Риск-менеджер</div>
+                                <div class="achievement-desc">Используйте стоп-лосс в 5 сделках</div>
+                                <div class="achievement-reward">+15 USDT</div>
+                            </div>
+                            <div class="achievement-card locked" data-achievement="streak3">
+                                <div class="achievement-icon">🔥</div>
+                                <div class="achievement-title">Серия побед</div>
+                                <div class="achievement-desc">Выиграйте 3 сделки подряд</div>
+                                <div class="achievement-reward">+8 USDT</div>
+                            </div>
+                            <div class="achievement-card locked" data-achievement="volumeTrader">
+                                <div class="achievement-icon">📊</div>
+                                <div class="achievement-title">Объемный трейдер</div>
+                                <div class="achievement-desc">Совершите 20 сделок</div>
+                                <div class="achievement-reward">+20 USDT</div>
+                            </div>
+                            <div class="achievement-card locked" data-achievement="analyst">
+                                <div class="achievement-icon">🔍</div>
+                                <div class="achievement-title">Аналитик</div>
+                                <div class="achievement-desc">Проанализируйте 50 свечей</div>
+                                <div class="achievement-reward">+12 USDT</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Статистика -->
+                    <div class="content-section" id="stats-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>📊 Статистика</h3>
+                            <button class="close-section">✕</button>
+                        </div>
+                        <div class="journal-stats">
+                            <div class="journal-stat" id="total-trades">
+                                <span class="stat-value">0</span>
+                                <span class="stat-label">Сделок</span>
+                            </div>
+                            <div class="journal-stat" id="win-rate">
+                                <span class="stat-value">0%</span>
+                                <span class="stat-label">Побед</span>
+                            </div>
+                            <div class="journal-stat">
+                                <span class="stat-value" id="user-level">1</span>
+                                <span class="stat-label">Уровень</span>
+                            </div>
+                            <div class="journal-stat">
+                                <span class="stat-value" id="user-xp">0</span>
+                                <span class="stat-label">Опыт</span>
+                            </div>
+                        </div>
+                        <button id="show-stats" class="trade-btn">📈 Подробная статистика</button>
+
+                        <!-- Ежедневные квесты -->
+                        <div style="margin-top: 20px;">
+                            <h4>🎯 Ежедневные квесты</h4>
+                            <div class="quests-grid" id="quests-container">
+                                <div class="quest-card">
+                                    <div class="quest-title">3 сделки за день</div>
+                                    <div class="quest-desc">Совершите 3 торговые операции</div>
+                                    <div class="quest-progress">
+                                        <div class="quest-progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="quest-reward">Награда: 5 USDT</div>
+                                </div>
+                                <div class="quest-card">
+                                    <div class="quest-title">Стоп-лосс мастер</div>
+                                    <div class="quest-desc">Используйте стоп-лосс в 5 сделках</div>
+                                    <div class="quest-progress">
+                                        <div class="quest-progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="quest-reward">Награда: 8 USDT</div>
+                                </div>
+                                <div class="quest-card">
+                                    <div class="quest-title">Профит +5%</div>
+                                    <div class="quest-desc">Достигните прибыли +5% за день</div>
+                                    <div class="quest-progress">
+                                        <div class="quest-progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="quest-reward">Награда: 10 USDT</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Данные -->
+                    <div class="content-section" id="data-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>💾 Данные</h3>
+                            <button class="close-section">✕</button>
+                        </div>
+                        <div class="data-buttons">
+                            <button id="export-btn" class="trade-btn">📤 Экспорт</button>
+                            <button id="import-btn" class="trade-btn">📥 Импорт</button>
+                            <input type="file" id="import-file" style="display: none;" accept=".json">
+                            <button id="reset-btn" class="trade-btn" style="background: var(--loss);">🔄 Сброс</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Всплывающий ИИ-помощник -->
-    <div id="ai-helper" class="ai-helper">
-        <div class="ai-helper-content">
-            <div class="ai-helper-avatar">🤖</div>
-            <div class="ai-helper-message" id="ai-helper-message">
-                Нажмите на меня для помощи!
+    
+    <!-- AI Assistant -->
+    <div id="ai-assistant" class="ai-assistant">
+        <div class="ai-header">
+            <h3>🤖 TradeLearn AI Помощник</h3>
+            <button id="close-ai" class="close-ai">✕</button>
+        </div>
+        <div class="ai-messages" id="ai-messages">
+            <div class="ai-message bot-message">
+                <div class="message-content">
+                    Привет! Я ваш AI-помощник по трейдингу. Хотите пройти обучающий тур по платформе?
+                </div>
+                <div class="message-time">сейчас</div>
             </div>
+        </div>
+        <div class="ai-actions" id="ai-actions">
+            <button class="ai-action-btn" data-action="start-tour">🚀 Начать обучение</button>
+            <button class="ai-action-btn" data-action="skip-tour">⏭️ Пропустить</button>
+        </div>
+        <div class="ai-input">
+            <input type="text" id="ai-question" placeholder="Задайте вопрос о трейдинге...">
+            <button id="send-ai-message">➤</button>
         </div>
     </div>
 
+    <button id="open-ai" class="open-ai-btn">🤖 AI Помощник</button>
+    
+    <div id="chart-tooltip" class="chart-tooltip" style="display: none;"></div>
+    
     <script src="script.js"></script>
 </body>
 </html>
